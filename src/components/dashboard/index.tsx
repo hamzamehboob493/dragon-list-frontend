@@ -107,7 +107,7 @@ const Dashboard = () => {
               </div>
             )}
 
-            {activeTab === "users" && (
+            {activeTab === "teams" && (
               <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm">
                 <div className="overflow-x-auto">
                   <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">

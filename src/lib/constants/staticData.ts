@@ -1,50 +1,12 @@
 import { routes } from "../routes";
 
-export const users = [
+export const teams = [
   {
     id: 1,
-    name: "John Doe",
-    email: "john.doe@example.com",
-    role: "Admin",
-    status: "Active",
-    lastLogin: "2024-01-15",
-    avatar: "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=150&h=150&dpr=2"
-  },
-  {
-    id: 2,
-    name: "Jane Smith",
-    email: "jane.smith@example.com",
-    role: "Manager",
-    status: "Active",
-    lastLogin: "2024-01-14",
-    avatar: "https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&w=150&h=150&dpr=2"
-  },
-  {
-    id: 3,
-    name: "Mike Johnson",
-    email: "mike.johnson@example.com",
-    role: "User",
-    status: "Inactive",
-    lastLogin: "2024-01-10",
-    avatar: "https://images.pexels.com/photos/1222271/pexels-photo-1222271.jpeg?auto=compress&cs=tinysrgb&w=150&h=150&dpr=2"
-  },
-  {
-    id: 4,
-    name: "Sarah Wilson",
-    email: "sarah.wilson@example.com",
-    role: "Manager",
-    status: "Active",
-    lastLogin: "2024-01-15",
-    avatar: "https://images.pexels.com/photos/1239291/pexels-photo-1239291.jpeg?auto=compress&cs=tinysrgb&w=150&h=150&dpr=2"
-  },
-  {
-    id: 5,
-    name: "David Brown",
-    email: "david.brown@example.com",
-    role: "User",
-    status: "Active",
-    lastLogin: "2024-01-13",
-    avatar: "https://images.pexels.com/photos/1681010/pexels-photo-1681010.jpeg?auto=compress&cs=tinysrgb&w=150&h=150&dpr=2"
+    name: "name ...",
+    description: "desc ...",
+    code: "code ...",
+    isActive: true,
   }
 ];
 
@@ -65,7 +27,7 @@ export const lineChartData = {
       tension: 0.4,
     },
     {
-      label: "Active Users",
+      label: "Active Teams",
       data: [28, 48, 40, 19, 86, 27],
       borderColor: "rgb(53, 162, 235)",
       backgroundColor: "rgba(53, 162, 235, 0.5)",
@@ -88,7 +50,7 @@ export const barChartData = {
 };
 
 export const stats = [
-  { label: "Total Users", value: "12,345", icon: "fas fa-users", color: "bg-blue-500" },
+  { label: "Total Teams", value: "12,345", icon: "fas fa-users", color: "bg-blue-500" },
   { label: "Active Posts", value: "5,678", icon: "fas fa-file-alt", color: "bg-green-500" },
   { label: "Revenue", value: "$45,678", icon: "fas fa-dollar-sign", color: "bg-orange-500" },
   { label: "Engagement", value: "87%", icon: "fas fa-chart-line", color: "bg-purple-500" },
@@ -110,15 +72,15 @@ export const analyticsData = {
   ],
   topPages: [
     { page: routes.ui.dashboard.index, views: 8500, percentage: 18.6 },
-    { page: routes.ui.landing, views: 6200, percentage: 13.6 },
-    { page: routes.ui.dashboard.users, views: 4800, percentage: 10.5 },
+    { page: routes.ui.root, views: 6200, percentage: 13.6 },
+    { page: routes.ui.dashboard.teams, views: 4800, percentage: 10.5 },
     { page: routes.ui.dashboard.analytics, views: 3900, percentage: 8.5 },
     { page: routes.ui.dashboard.settings, views: 2100, percentage: 4.6 }
   ],
   deviceTypes: [
-    { device: "Desktop", users: 7200, percentage: 58.3 },
-    { device: "Mobile", users: 4100, percentage: 33.2 },
-    { device: "Tablet", users: 1045, percentage: 8.5 }
+    { device: "Desktop", teams: 7200, percentage: 58.3 },
+    { device: "Mobile", teams: 4100, percentage: 33.2 },
+    { device: "Tablet", teams: 1045, percentage: 8.5 }
   ],
   recentActivity: [
     { action: "New user registration", user: "john.doe@example.com", time: "2 minutes ago" },
@@ -190,7 +152,7 @@ export const settingsData = {
 
 export const sidebarItems = [
   { icon: "fas fa-home", label: "Dashboard", href: routes.ui.dashboard.index },
-  { icon: "fas fa-users", label: "Users", href: routes.ui.dashboard.users },
+  { icon: "fas fa-users", label: "Teams", href: routes.ui.dashboard.teams },
   { icon: "fas fa-chart-bar", label: "Analytics", href: routes.ui.dashboard.analytics },
   { icon: "fas fa-cog", label: "Settings", href: routes.ui.dashboard.settings },
 ];

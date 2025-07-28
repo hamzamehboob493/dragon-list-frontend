@@ -4,7 +4,7 @@ export const routes = {
     signIn: "/auth/sign-in",
     dashboard: {
       index: "/dashboard",
-      users: "/dashboard/users",
+      teams: "/dashboard/teams",
       analytics: "/dashboard/analytics",
       settings: "/dashboard/settings",
       profile: "/dashboard/profile",
@@ -13,7 +13,10 @@ export const routes = {
   api: {
     auth: {
       logIn: "/auth/email/login",
-      refreshAuthTokens: "/auth/refresh"
+      refreshAuthTokens: "/auth/refresh",
+    },
+    teams: {
+      index: '/teams',
     },
   },
 };

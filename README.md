@@ -17,7 +17,7 @@ lib/
 ├── api/axios.ts        # Central Axios instance for API calls
 ├── services/           # API interactions for list management and other features
 ├── schemas/            # Yup validation schemas for forms
-├── types/              # TypeScript types/interfaces for lists and users
+├── types/              # TypeScript types/interfaces for lists and teams
 ├── routes.ts           # Centralized route constants
 ├── constants/          # Shared values (dropdowns, sidebar data, etc.)
 ├── helpers/            # Utility functions (formatDate, etc.)

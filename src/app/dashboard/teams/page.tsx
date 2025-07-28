@@ -1,12 +1,12 @@
 "use client";
 
 import React from "react";
-import UsersPage from "@/components/dashboard/UsersPage";
+import TeamsPage from "@/components/dashboard/teams/TeamsPage";
 
 const page = () => {
 
   return (
-    <UsersPage />
+    <TeamsPage />
   );
 };
 
