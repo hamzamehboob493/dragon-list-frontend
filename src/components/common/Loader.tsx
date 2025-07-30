@@ -5,7 +5,7 @@ import React from "react";
 
 const Loader: React.FC<LoaderProps> = ({
   size = 40,
-  color = "#f97316",
+  color = "white",
   customClass = "",
 }) => {
   return (

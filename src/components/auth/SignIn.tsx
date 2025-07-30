@@ -9,7 +9,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { signIn, useSession } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { SignInFormData } from "@/lib/types/auth/types";
-import { loginSchema } from "@/lib/schemas/authSchema";
+import { loginSchema } from "@/lib/schemas";
 import { ThemeToggle } from "../common/ThemeToggle";
 
 const SignIn = () => {

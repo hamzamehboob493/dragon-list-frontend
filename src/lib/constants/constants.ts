@@ -8,7 +8,7 @@ export const profileTabs = [
 
 export const dashboardTabs = [
   { id: "overview", label: "Overview" },
-  { id: "users", label: "Users" },
+  { id: "teams", label: "Teams" },
   { id: "analytics", label: "Analytics" },
 ];
 

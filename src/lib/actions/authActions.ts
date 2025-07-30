@@ -2,7 +2,6 @@ import { envVars } from "@/config";
 import api from "../api/axios";
 import { routes } from "../routes";
 import { SignInFormData } from "../types/auth/types";
-import axios from "axios";
 
 export async function signIn(data: SignInFormData) {
   try {
@@ -18,7 +17,7 @@ export async function signIn(data: SignInFormData) {
 // using axios because our centeral ../api/axios, by default adds access token, but we need refresh one
 export async function refreshAccessToken(token: any) {
   try {
-    const response = await fetch("https://web-production-67a12.up.railway.app/api/v1/auth/refresh", {
+    const response = await fetch(`${envVars.apiBaseUrl}${routes.api.auth.refreshAuthTokens}`, {
       method: "POST",
       headers: {
         Authorization: `Bearer ${token.refreshToken}`,
