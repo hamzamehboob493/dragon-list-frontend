@@ -2,23 +2,24 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { teamSchema } from '@/lib/schemas';
-import { Team, TeamModalProps } from '@/lib/types/dashboard/types';
+import { TeamFormValues, TeamModalProps } from '@/lib/types/dashboard/types';
 import Loader from '@/components/common/Loader';
 
 const TeamModal: React.FC<TeamModalProps> = ({ isOpen, onClose, onSubmit, loading, team = null }) => {
-  const { register, handleSubmit, formState: { errors }, reset } = useForm<Team>({
+  const { register, handleSubmit, formState: { errors }, reset } = useForm<TeamFormValues>({
     resolver: yupResolver(teamSchema),
-    defaultValues: team || {
-      name: '',
-      description: '',
-      code: '',
-      isActive: true
-    }
+    // defaultValues: team || {
+    //   id: '',
+    //   name: '',
+    //   description: '',
+    //   code: '',
+    //   isActive: true
+    // }
   });
 
   React.useEffect(() => {
     if (team) {
-      reset(team);
+      reset();
     } else {
       reset({
         name: '',
@@ -29,16 +30,15 @@ const TeamModal: React.FC<TeamModalProps> = ({ isOpen, onClose, onSubmit, loadin
     }
   }, [team, reset]);
 
-  const handleFormSubmit = (data: Team) => {
+  const handleFormSubmit = (data: TeamFormValues) => {
     onSubmit(data);
-    onClose();
     if (!team) reset();
   };
 
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm flex items-center justify-center">
+    <div className="fixed inset-0 z-50 bg-black/50 flex items-center justify-center">
       <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl p-6 w-full max-w-md">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-xl font-bold text-gray-900 dark:text-white">
@@ -46,7 +46,7 @@ const TeamModal: React.FC<TeamModalProps> = ({ isOpen, onClose, onSubmit, loadin
           </h2>
           <button
             onClick={onClose}
-            className="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
+            className="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 cursor-pointer"
           >
             <i className="fas fa-times"></i>
           </button>
@@ -118,6 +118,7 @@ const TeamModal: React.FC<TeamModalProps> = ({ isOpen, onClose, onSubmit, loadin
             </button>
             <button
               type="submit"
+              disabled={loading}
               className="px-4 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 cursor-pointer flex items-center gap-2"
             >
               {team ? 'Update Team' : 'Add Team'} {loading && <Loader size={20} />}

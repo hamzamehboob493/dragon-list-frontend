@@ -16,3 +16,13 @@ export const teamSchema = yup.object().shape({
     .required('Team code is required'),
   isActive: yup.boolean().required('Status is required')
 });
+
+export const userSchema = yup.object().shape({
+  email: yup.string().email('Invalid email').required('Email is required'),
+  firstName: yup.string().required('First name is required').min(2, 'First name must be at least 2 characters'),
+  lastName: yup.string().required('Last name is required').min(2, 'Last name must be at least 2 characters'),
+  phoneNumber: yup.string().required('Phone number is required').matches(/^\+\d{10,15}$/, 'Invalid phone number format'),
+  team: yup.object().shape({
+    id: yup.string().required('Team is required'),
+  }),
+});

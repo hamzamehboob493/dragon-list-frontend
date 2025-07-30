@@ -8,6 +8,7 @@ export const routes = {
       analytics: "/dashboard/analytics",
       settings: "/dashboard/settings",
       profile: "/dashboard/profile",
+      users: "/dashboard/users",
     },
   },
   api: {
@@ -17,6 +18,9 @@ export const routes = {
     },
     teams: {
       index: '/teams',
+    },
+    users: {
+      index: '/users',
     },
   },
 };

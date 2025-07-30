@@ -153,6 +153,7 @@ export const settingsData = {
 export const sidebarItems = [
   { icon: "fas fa-home", label: "Dashboard", href: routes.ui.dashboard.index },
   { icon: "fas fa-users", label: "Teams", href: routes.ui.dashboard.teams },
+  { icon: "fas fa-user", label: "Users", href: routes.ui.dashboard.users },
   { icon: "fas fa-chart-bar", label: "Analytics", href: routes.ui.dashboard.analytics },
   { icon: "fas fa-cog", label: "Settings", href: routes.ui.dashboard.settings },
 ];
