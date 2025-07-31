@@ -7,7 +7,7 @@ export const teams = [
     description: "desc ...",
     code: "code ...",
     isActive: true,
-  }
+  },
 ];
 
 export const posts = [
@@ -50,10 +50,30 @@ export const barChartData = {
 };
 
 export const stats = [
-  { label: "Total Teams", value: "12,345", icon: "fas fa-users", color: "bg-blue-500" },
-  { label: "Active Posts", value: "5,678", icon: "fas fa-file-alt", color: "bg-green-500" },
-  { label: "Revenue", value: "$45,678", icon: "fas fa-dollar-sign", color: "bg-orange-500" },
-  { label: "Engagement", value: "87%", icon: "fas fa-chart-line", color: "bg-purple-500" },
+  {
+    label: "Total Teams",
+    value: "12,345",
+    icon: "fas fa-users",
+    color: "bg-blue-500",
+  },
+  {
+    label: "Active Posts",
+    value: "5,678",
+    icon: "fas fa-file-alt",
+    color: "bg-green-500",
+  },
+  {
+    label: "Revenue",
+    value: "$45,678",
+    icon: "fas fa-dollar-sign",
+    color: "bg-orange-500",
+  },
+  {
+    label: "Engagement",
+    value: "87%",
+    icon: "fas fa-chart-line",
+    color: "bg-purple-500",
+  },
 ];
 
 export const analyticsData = {
@@ -61,34 +81,54 @@ export const analyticsData = {
     totalVisitors: 12345,
     pageViews: 45678,
     bounceRate: 32.5,
-    avgSessionDuration: "3m 45s"
+    avgSessionDuration: "3m 45s",
   },
   trafficSources: [
     { source: "Direct", visitors: 4500, percentage: 36.5 },
     { source: "Organic Search", visitors: 3200, percentage: 25.9 },
     { source: "Social Media", visitors: 2100, percentage: 17.0 },
     { source: "Referral", visitors: 1800, percentage: 14.6 },
-    { source: "Email", visitors: 745, percentage: 6.0 }
+    { source: "Email", visitors: 745, percentage: 6.0 },
   ],
   topPages: [
     { page: routes.ui.dashboard.index, views: 8500, percentage: 18.6 },
     { page: routes.ui.root, views: 6200, percentage: 13.6 },
     { page: routes.ui.dashboard.teams, views: 4800, percentage: 10.5 },
     { page: routes.ui.dashboard.analytics, views: 3900, percentage: 8.5 },
-    { page: routes.ui.dashboard.settings, views: 2100, percentage: 4.6 }
+    { page: routes.ui.dashboard.settings, views: 2100, percentage: 4.6 },
   ],
   deviceTypes: [
     { device: "Desktop", teams: 7200, percentage: 58.3 },
     { device: "Mobile", teams: 4100, percentage: 33.2 },
-    { device: "Tablet", teams: 1045, percentage: 8.5 }
+    { device: "Tablet", teams: 1045, percentage: 8.5 },
   ],
   recentActivity: [
-    { action: "New user registration", user: "john.doe@example.com", time: "2 minutes ago" },
-    { action: "Page view", user: "jane.smith@example.com", time: "5 minutes ago" },
-    { action: "Form submission", user: "mike.johnson@example.com", time: "8 minutes ago" },
-    { action: "User login", user: "sarah.wilson@example.com", time: "12 minutes ago" },
-    { action: "File download", user: "david.brown@example.com", time: "15 minutes ago" }
-  ]
+    {
+      action: "New user registration",
+      user: "john.doe@example.com",
+      time: "2 minutes ago",
+    },
+    {
+      action: "Page view",
+      user: "jane.smith@example.com",
+      time: "5 minutes ago",
+    },
+    {
+      action: "Form submission",
+      user: "mike.johnson@example.com",
+      time: "8 minutes ago",
+    },
+    {
+      action: "User login",
+      user: "sarah.wilson@example.com",
+      time: "12 minutes ago",
+    },
+    {
+      action: "File download",
+      user: "david.brown@example.com",
+      time: "15 minutes ago",
+    },
+  ],
 };
 
 export const profileData = {
@@ -100,7 +140,7 @@ export const profileData = {
     bio: "Experienced professional with a passion for technology and innovation.",
     location: "San Francisco, CA",
     website: "https://emilyjohnson.dev",
-    birthDate: "1990-05-15"
+    birthDate: "1990-05-15",
   },
   professional: {
     jobTitle: "Senior Product Manager",
@@ -109,7 +149,12 @@ export const profileData = {
     employeeId: "EMP-2024-001",
     startDate: "2022-01-15",
     manager: "John Smith",
-    skills: ["Product Management", "UX Design", "Data Analysis", "Team Leadership"]
+    skills: [
+      "Product Management",
+      "UX Design",
+      "Data Analysis",
+      "Team Leadership",
+    ],
   },
   preferences: {
     language: "English",
@@ -117,9 +162,9 @@ export const profileData = {
     dateFormat: "MM/DD/YYYY",
     emailNotifications: true,
     pushNotifications: false,
-    weeklyDigest: true
-  }
-}
+    weeklyDigest: true,
+  },
+};
 
 export const settingsData = {
   general: {
@@ -127,35 +172,43 @@ export const settingsData = {
     siteDescription: "Modern admin dashboard with authentication",
     timezone: "UTC",
     language: "en",
-    dateFormat: "MM/DD/YYYY"
+    dateFormat: "MM/DD/YYYY",
   },
   notifications: {
     emailNotifications: true,
     pushNotifications: false,
     smsNotifications: false,
     weeklyReports: true,
-    monthlyReports: true
+    monthlyReports: true,
   },
   security: {
     twoFactorAuth: false,
     sessionTimeout: "30",
     passwordExpiry: "90",
-    loginAttempts: "5"
+    loginAttempts: "5",
   },
   appearance: {
     theme: "light",
     sidebarCollapsed: false,
     compactMode: false,
-    showAnimations: true
-  }
-}
+    showAnimations: true,
+  },
+};
 
 export const sidebarItems = [
   { icon: "fas fa-home", label: "Dashboard", href: routes.ui.dashboard.index },
   { icon: "fas fa-users", label: "Teams", href: routes.ui.dashboard.teams },
   { icon: "fas fa-user", label: "Users", href: routes.ui.dashboard.users },
-  { icon: "fas fa-clock", label: "Meetings", href: routes.ui.dashboard.meetings },
-  { icon: "fas fa-chart-bar", label: "Analytics", href: routes.ui.dashboard.analytics },
+  {
+    icon: "fas fa-clock",
+    label: "Meetings",
+    href: routes.ui.dashboard.meetings,
+  },
+  {
+    icon: "fas fa-chart-bar",
+    label: "Analytics",
+    href: routes.ui.dashboard.analytics,
+  },
   { icon: "fas fa-cog", label: "Settings", href: routes.ui.dashboard.settings },
 ];
 

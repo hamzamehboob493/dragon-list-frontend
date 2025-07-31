@@ -18,13 +18,13 @@ export const routes = {
       refreshAuthTokens: "/auth/refresh",
     },
     teams: {
-      index: '/teams',
+      index: "/teams",
     },
     users: {
-      index: '/users',
+      index: "/users",
     },
     meetings: {
-      index: '/meetings',
+      index: "/meetings",
     },
   },
 };

@@ -4,10 +4,7 @@ import React from "react";
 import User from "@/components/dashboard/users/User";
 
 const page = () => {
-
-  return (
-    <User />
-  );
+  return <User />;
 };
 
 export default page;

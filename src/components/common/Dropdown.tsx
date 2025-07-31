@@ -44,7 +44,10 @@ function Dropdown<T extends object, K extends keyof T, V extends keyof T>({
   }, []);
 
   return (
-    <div className={`relative inline-block text-left w-full ${customClass}`} ref={dropdownRef}>
+    <div
+      className={`relative inline-block text-left w-full ${customClass}`}
+      ref={dropdownRef}
+    >
       <button
         type="button"
         className="w-full rounded-md border border-gray-300 bg-white px-4 py-2 text-left text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 focus:ring-offset-white disabled:opacity-50 disabled:cursor-not-allowed"

@@ -1,13 +1,12 @@
 "use client";
 
-import React, {
-  createContext,
-  useContext,
-  useEffect,
-  useState,
-} from "react";
+import React, { createContext, useContext, useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
-import { AppContextType, AppProviderProps, CurrentUser } from "@/lib/types/context/types";
+import {
+  AppContextType,
+  AppProviderProps,
+  CurrentUser,
+} from "@/lib/types/context/types";
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
 
@@ -42,7 +41,9 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
   }, [session, status]);
 
   const updateUser = (userData: Partial<CurrentUser>) => {
-    setCurrentUser((prev: CurrentUser | null ) => (prev ? { ...prev, ...userData } : null));
+    setCurrentUser((prev: CurrentUser | null) =>
+      prev ? { ...prev, ...userData } : null,
+    );
   };
 
   const clearUser = () => {
@@ -57,11 +58,7 @@ export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
     clearUser,
   };
 
-  return (
-    <AppContext.Provider value={value}>
-      {children}
-    </AppContext.Provider>
-  );
+  return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
 };
 
 export const useAppContext = (): AppContextType => {

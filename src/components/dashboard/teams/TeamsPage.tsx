@@ -4,8 +4,16 @@ import React, { useEffect, useState } from "react";
 import AdminLayout from "@/layouts/AdminLayout";
 import TeamModal from "./TeamModal";
 import ConfirmModal from "@/components/common/ConfirmModal";
-import ToastMessages, { showSuccessToast, showErrorToast } from "@/components/common/ToastMessages";
-import { createAction, deleteAction, getAction, updateAction } from "@/lib/actions/crudActions";
+import ToastMessages, {
+  showSuccessToast,
+  // showErrorToast,
+} from "@/components/common/ToastMessages";
+import {
+  createAction,
+  deleteAction,
+  getAction,
+  updateAction,
+} from "@/lib/actions/crudActions";
 import { routes } from "@/lib/routes";
 import { Team, TeamFormValues } from "@/lib/types/dashboard/types";
 import Link from "next/link";
@@ -21,9 +29,10 @@ const TeamsPage = () => {
   const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false);
   const [teamToDelete, setTeamToDelete] = useState<Team | null>(null);
 
-  const filteredTeams = teams.filter(team => {
-    const matchesSearch = team.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         team.description.toLowerCase().includes(searchTerm.toLowerCase());
+  const filteredTeams = teams.filter((team) => {
+    const matchesSearch =
+      team.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      team.description.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesStatus = !showActiveOnly || team.isActive;
     return matchesSearch && matchesStatus;
   });
@@ -45,10 +54,10 @@ const TeamsPage = () => {
       if (response?.status === 200) {
         setTeams(response?.data.data || []);
       } else {
-        showErrorToast("Failed to fetch teams");
+        // showErrorToast("Failed to fetch teams");
       }
     } catch (error) {
-      showErrorToast("Error fetching teams");
+      // showErrorToast("Error fetching teams");
       console.error("Error fetching teams:", error);
     } finally {
       setLoading(false);
@@ -60,12 +69,15 @@ const TeamsPage = () => {
     try {
       let response;
       if (editingTeam?.id) {
-        response = await updateAction(`${routes.api.teams.index}/${editingTeam.id}`, data);
+        response = await updateAction(
+          `${routes.api.teams.index}/${editingTeam.id}`,
+          data,
+        );
         if (response?.status === 200) {
           await getTeamsData();
           showSuccessToast("Team updated successfully");
         } else {
-          showErrorToast(response?.data.message || "Error updating team");
+          // showErrorToast(response?.data.message || "Error updating team");
         }
       } else {
         response = await createAction(routes.api.teams.index, data);
@@ -73,11 +85,11 @@ const TeamsPage = () => {
           await getTeamsData();
           showSuccessToast("Team created successfully");
         } else {
-          showErrorToast(response?.data.message || "Error creating team");
+          // showErrorToast(response?.data.message || "Error creating team");
         }
       }
     } catch (error) {
-      showErrorToast("Error submitting team");
+      // showErrorToast("Error submitting team");
       console.error("Error submitting team:", error);
     } finally {
       setShowModal(false);
@@ -90,15 +102,17 @@ const TeamsPage = () => {
     if (!teamToDelete?.id) return;
     setLoading(true);
     try {
-      const response = await deleteAction(`${routes.api.teams.index}/${teamToDelete.id}`);
+      const response = await deleteAction(
+        `${routes.api.teams.index}/${teamToDelete.id}`,
+      );
       if (response?.status === 200) {
         await getTeamsData();
         showSuccessToast("Team deleted successfully");
       } else {
-        showErrorToast(response?.data.message || "Error deleting team");
+        // showErrorToast(response?.data.message || "Error deleting team");
       }
     } catch (error) {
-      showErrorToast("Error deleting team");
+      // showErrorToast("Error deleting team");
       console.error("Error deleting team:", error);
     } finally {
       setLoading(false);
@@ -121,8 +135,12 @@ const TeamsPage = () => {
       <div className="space-y-6">
         <div className="flex justify-between items-center">
           <div>
-            <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Teams Management</h1>
-            <p className="text-gray-600 dark:text-gray-400 mt-1">Manage and monitor team accounts</p>
+            <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
+              Teams Management
+            </h1>
+            <p className="text-gray-600 dark:text-gray-400 mt-1">
+              Manage and monitor team accounts
+            </p>
           </div>
           <button
             className="bg-orange-500 text-white px-4 py-2 rounded-lg hover:bg-orange-600 transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
@@ -139,20 +157,38 @@ const TeamsPage = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {[
-            { label: "Total Teams", count: teams.length, icon: "fas fa-users", color: "blue" },
-            { label: "Active Teams", count: teams.filter(u => u.isActive).length, icon: "fas fa-user-check", color: "green" },
+            {
+              label: "Total Teams",
+              count: teams.length,
+              icon: "fas fa-users",
+              color: "blue",
+            },
+            {
+              label: "Active Teams",
+              count: teams.filter((u) => u.isActive).length,
+              icon: "fas fa-user-check",
+              color: "green",
+            },
           ].map((card, i) => (
             <div
               key={i}
               className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-sm border dark:border-gray-700 transform hover:scale-105 transition-transform duration-200"
             >
               <div className="flex items-center">
-                <div className={`p-2 bg-${card.color}-100 dark:bg-${card.color}-900 rounded-lg`}>
-                  <i className={`${card.icon} text-${card.color}-600 text-xl dark:text-${card.color}-300`}></i>
+                <div
+                  className={`p-2 bg-${card.color}-100 dark:bg-${card.color}-900 rounded-lg`}
+                >
+                  <i
+                    className={`${card.icon} text-${card.color}-600 text-xl dark:text-${card.color}-300`}
+                  ></i>
                 </div>
                 <div className="ml-4">
-                  <p className="text-sm text-gray-600 dark:text-gray-400">{card.label}</p>
-                  <p className="text-2xl font-bold text-gray-900 dark:text-white">{card.count}</p>
+                  <p className="text-sm text-gray-600 dark:text-gray-400">
+                    {card.label}
+                  </p>
+                  <p className="text-2xl font-bold text-gray-900 dark:text-white">
+                    {card.count}
+                  </p>
                 </div>
               </div>
             </div>
@@ -162,7 +198,9 @@ const TeamsPage = () => {
         <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-sm border dark:border-gray-700">
           <div className="flex flex-col md:flex-row gap-4">
             <div className="flex-1">
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Search Teams</label>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                Search Teams
+              </label>
               <div className="relative">
                 <i className="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
                 <input
@@ -177,7 +215,9 @@ const TeamsPage = () => {
             </div>
 
             <div className="md:w-48">
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Filter Status</label>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                Filter Status
+              </label>
               <select
                 className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all duration-200"
                 value={showActiveOnly.toString()}
@@ -196,9 +236,16 @@ const TeamsPage = () => {
             <table className="w-full">
               <thead className="bg-gray-50 dark:bg-gray-700">
                 <tr>
-                  {['Name', 'Code', 'Description', 'Status', 'Actions'].map((header) => (
-                    <th key={header} className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">{header}</th>
-                  ))}
+                  {["Name", "Code", "Description", "Status", "Actions"].map(
+                    (header) => (
+                      <th
+                        key={header}
+                        className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider"
+                      >
+                        {header}
+                      </th>
+                    ),
+                  )}
                 </tr>
               </thead>
               {loading ? (
@@ -212,19 +259,30 @@ const TeamsPage = () => {
               ) : (
                 <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
                   {filteredTeams.map((team) => (
-                    <tr key={team.id} className="hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200">
+                    <tr
+                      key={team.id}
+                      className="hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200"
+                    >
                       <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="text-sm font-medium text-gray-900 dark:text-white">{team.name}</div>
+                        <div className="text-sm font-medium text-gray-900 dark:text-white">
+                          {team.name}
+                        </div>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
-                        <span className="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-300">{team.code}</span>
+                        <span className="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-300">
+                          {team.code}
+                        </span>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="text-sm text-gray-900 dark:text-white">{team.description}</div>
+                        <div className="text-sm text-gray-900 dark:text-white">
+                          {team.description}
+                        </div>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
-                        <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${getStatusBadge(team.isActive)}`}>
-                          {team.isActive ? 'Active' : 'Inactive'}
+                        <span
+                          className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${getStatusBadge(team.isActive)}`}
+                        >
+                          {team.isActive ? "Active" : "Inactive"}
                         </span>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">

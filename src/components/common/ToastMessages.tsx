@@ -1,28 +1,28 @@
-import React from 'react';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import React from "react";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export const showSuccessToast = (message: string) => {
   toast.success(message, {
-    position: 'top-right',
+    position: "top-right",
     autoClose: 3000,
     hideProgressBar: false,
     closeOnClick: true,
     pauseOnHover: true,
     draggable: true,
-    theme: 'colored',
+    theme: "colored",
   });
 };
 
 export const showErrorToast = (message: string) => {
   toast.error(message, {
-    position: 'top-right',
+    position: "top-right",
     autoClose: 3000,
     hideProgressBar: false,
     closeOnClick: true,
     pauseOnHover: true,
     draggable: true,
-    theme: 'colored',
+    theme: "colored",
   });
 };
 

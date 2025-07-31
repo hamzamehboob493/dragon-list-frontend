@@ -4,9 +4,7 @@ import React from "react";
 import MeetingsPage from "@/components/dashboard/meetings/MeetingsPage";
 
 const page = () => {
-  return (
-    <MeetingsPage />
-  );
+  return <MeetingsPage />;
 };
 
 export default page;

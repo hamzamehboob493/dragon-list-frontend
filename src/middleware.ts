@@ -5,7 +5,7 @@ import type { NextRequest } from "next/server";
 export default withAuth(
   function middleware(req: NextRequest) {
     const { pathname } = req.nextUrl;
-    
+
     if (pathname.startsWith("/auth")) {
       const callbackUrl = req.nextUrl.searchParams.get("callbackUrl");
       if (callbackUrl && callbackUrl.startsWith("/dashboard")) {
@@ -20,7 +20,7 @@ export default withAuth(
     callbacks: {
       authorized: ({ token, req }) => {
         const { pathname } = req.nextUrl;
-        
+
         if (pathname.startsWith("/auth")) {
           return !token;
         }
@@ -35,12 +35,9 @@ export default withAuth(
     pages: {
       signIn: "/auth/sign-in",
     },
-  }
+  },
 );
 
 export const config = {
-  matcher: [
-    "/dashboard/:path*",
-    "/auth/:path*",
-  ],
+  matcher: ["/dashboard/:path*", "/auth/:path*"],
 };

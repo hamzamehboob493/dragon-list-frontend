@@ -67,6 +67,7 @@ docker-compose up --build
 ## Health Check
 
 The application includes a health check endpoint at `/api/health` that returns:
+
 ```json
 {
   "status": "healthy",
@@ -79,6 +80,7 @@ This endpoint is used by Docker to monitor the container's health.
 ## Volumes
 
 The development environment mounts the following volumes:
+
 - `.:/app`: Source code for hot-reloading
 - `/app/node_modules`: Persistent node_modules
 - `/app/.next`: Persistent Next.js build
@@ -86,6 +88,7 @@ The development environment mounts the following volumes:
 ## Debugging
 
 In development mode, the container is configured with:
+
 - `stdin_open: true`
 - `tty: true`
 
@@ -93,14 +96,16 @@ This allows for better debugging capabilities.
 
 ## Common Issues
 
-1. **Port already in use**: 
+1. **Port already in use**:
+
    ```bash
    # Find and kill the process using port 3000
    lsof -i :3000
    kill -9 <PID>
    ```
 
-2. **Container not starting**: 
+2. **Container not starting**:
+
    ```bash
    # Check container logs
    docker-compose logs web
@@ -112,3 +117,4 @@ This allows for better debugging capabilities.
    ```bash
    # Restart the containers
    docker-compose -f docker-compose.dev.yml restart
+   ```

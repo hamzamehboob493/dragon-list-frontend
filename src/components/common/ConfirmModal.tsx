@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 interface ConfirmModalProps {
   isOpen: boolean;
@@ -14,17 +14,19 @@ const ConfirmModal: React.FC<ConfirmModalProps> = ({
   isOpen,
   onClose,
   onConfirm,
-  title = 'Confirm Action',
-  message = 'Are you sure you want to proceed with this action?',
-  confirmText = 'Confirm',
-  cancelText = 'Cancel',
+  title = "Confirm Action",
+  message = "Are you sure you want to proceed with this action?",
+  confirmText = "Confirm",
+  cancelText = "Cancel",
 }) => {
   if (!isOpen) return null;
 
   return (
     <div className="fixed inset-0 bg-black/50 bg-opacity-50 flex items-center justify-center z-50">
       <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl p-6 w-full max-w-md">
-        <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">{title}</h2>
+        <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">
+          {title}
+        </h2>
         <p className="text-gray-600 dark:text-gray-300 mb-6">{message}</p>
         <div className="flex justify-end space-x-2">
           <button

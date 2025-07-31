@@ -6,7 +6,7 @@ export interface Team {
   isActive: boolean;
   createdAt?: Date | undefined;
   updatedAt?: Date | undefined;
-  members?: [];
+  members: string[];
 }
 
 export interface TeamModalProps {
@@ -43,10 +43,16 @@ export interface User {
   firstName: string;
   lastName: string;
   phoneNumber: string;
-  photo?: {id: string, path: string}
-  role: { id: string };
-  status: { id: string };
-  team: { id: string; name: string; description: string; code: string; isActive: boolean };
+  photo?: { id: string; path: string };
+  role: { id: string, name?: string };
+  status: { id: string, name?: string };
+  team: {
+    id: string;
+    name: string;
+    description: string;
+    code: string;
+    isActive: boolean;
+  };
 }
 
 export interface UserModalProps {
@@ -80,6 +86,8 @@ export interface Meeting {
   isException: boolean;
   participantCount: number;
   recordingUrl?: string;
+  team?: Team;
+  organizer?: User;
 }
 
 export interface MeetingModalProps {

@@ -18,12 +18,15 @@ export async function signIn(data: SignInFormData) {
 // using axios because our centeral ../api/axios, by default adds access token, but we need refresh one
 export async function refreshAccessToken(token: JWT): Promise<JWT> {
   try {
-    const response = await fetch(`${envVars.apiBaseUrl}${routes.api.auth.refreshAuthTokens}`, {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${token.refreshToken}`,
+    const response = await fetch(
+      `${envVars.apiBaseUrl}${routes.api.auth.refreshAuthTokens}`,
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token.refreshToken}`,
+        },
       },
-    });
+    );
 
     if (!response.ok) {
       throw new Error("Failed to get refresh token");
@@ -31,7 +34,7 @@ export async function refreshAccessToken(token: JWT): Promise<JWT> {
 
     const refreshedTokens = await response.json();
 
-    console.log('new refreshedTokens', refreshedTokens)
+    console.log("new refreshedTokens", refreshedTokens);
 
     return {
       ...token,
