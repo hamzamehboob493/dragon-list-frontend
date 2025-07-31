@@ -75,7 +75,6 @@ const User: React.FC = () => {
 
         {user && !loading && !error && (
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            {/* User Info Card */}
             <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border dark:border-gray-700 p-6 transform hover:shadow-md transition-shadow duration-300">
               <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4 flex items-center">
                 <i className="fas fa-user mr-2 text-orange-500"></i>
@@ -106,7 +105,6 @@ const User: React.FC = () => {
                   <div className="w-1/3 text-sm font-medium text-gray-700 dark:text-gray-300">Status</div>
                   <div className="w-2/3">
                     <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${getStatusBadge(user.status.id)}`}>
-                      {/* {user.status.id.charAt(0).toUpperCase() + user.status.id.slice(1)} */}
                     </span>
                   </div>
                 </div>
@@ -123,7 +121,6 @@ const User: React.FC = () => {
               </div>
             </div>
 
-            {/* Team Info Card */}
             {
               user.team && (
                 <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border dark:border-gray-700 p-6 transform hover:shadow-md transition-shadow duration-300">

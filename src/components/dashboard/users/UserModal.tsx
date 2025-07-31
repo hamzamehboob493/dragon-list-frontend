@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { User, Team, UserModalProps, UserFormValues } from '@/lib/types/dashboard/types';
+import { Team, UserModalProps, UserFormValues } from '@/lib/types/dashboard/types';
 import { getAction } from '@/lib/actions/crudActions';
 import { routes } from '@/lib/routes';
 import { userSchema } from '@/lib/schemas';

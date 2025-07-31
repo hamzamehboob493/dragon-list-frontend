@@ -26,12 +26,14 @@ export type TeamFormValues = {
 };
 
 export interface UserFormValues {
-  id?: number;
   email: string;
+  password?: string;
   firstName: string;
   lastName: string;
   phoneNumber: string;
-  team: { id: string; name: string; description: string; code: string; isActive: boolean };
+  team: { id: string };
+  role?: { id: string };
+  status?: { id: string };
 }
 
 export interface User {
@@ -52,5 +54,38 @@ export interface UserModalProps {
   onClose: () => void;
   onSubmit: (data: UserFormValues) => void;
   user?: User | null;
+  loading?: boolean;
+}
+
+export interface Meeting {
+  id?: number;
+  title: string;
+  description: string;
+  googleMeetId: string;
+  googleDocId: string;
+  googleDriveFolderId: string;
+  teamId: number;
+  organizerId: number;
+  startTime: string;
+  endTime: string;
+  status: string;
+  meetingType: string;
+  recurrencePattern?: string;
+  recurrenceRule?: string;
+  seriesId?: string;
+  parentMeetingId?: number;
+  originalStartTime: string;
+  recurrenceEndDate?: string;
+  maxOccurrences?: number;
+  isException: boolean;
+  participantCount: number;
+  recordingUrl?: string;
+}
+
+export interface MeetingModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  onSubmit: (data: Meeting) => void;
+  meeting?: Meeting | null;
   loading?: boolean;
 }

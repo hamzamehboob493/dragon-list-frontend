@@ -9,6 +9,7 @@ export const routes = {
       settings: "/dashboard/settings",
       profile: "/dashboard/profile",
       users: "/dashboard/users",
+      meetings: "/dashboard/meetings",
     },
   },
   api: {
@@ -21,6 +22,9 @@ export const routes = {
     },
     users: {
       index: '/users',
+    },
+    meetings: {
+      index: '/meetings',
     },
   },
 };
