@@ -8,7 +8,7 @@ import { AdminLayoutProps } from "@/lib/types/layouts/types";
 import { routes } from "@/lib/routes";
 import { sidebarItems } from "@/lib/constants/staticData";
 import Spinner from "@/components/common/Spinner";
-import { usePathname } from 'next/navigation';
+import { usePathname } from "next/navigation";
 
 const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
   const [isProfileOpen, setIsProfileOpen] = useState(false);
@@ -23,7 +23,6 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
   const handleLogout = async () => {
     await signOut({ redirect: true, callbackUrl: "/auth/sign-in" });
   };
-
 
   if (isLoading) return <Spinner />;
 
@@ -55,9 +54,10 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
               key={item.label}
               href={item.href as string}
               className={`flex items-center px-4 py-3 dark:text-gray-200 hover:bg-orange-50 dark:hover:bg-gray-700 hover:text-orange-500 dark:hover:text-orange-400 ${
-                pathname.includes(item.href) && !pathname.includes(`${item.href}/`)
-                  ? 'text-orange-500 dark:text-orange-400'
-                  : 'text-gray-700'
+                pathname.includes(item.href) &&
+                !pathname.includes(`${item.href}/`)
+                  ? "text-orange-500 dark:text-orange-400"
+                  : "text-gray-700"
               }`}
             >
               <i className={`${item.icon} w-6`}></i>

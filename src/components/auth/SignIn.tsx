@@ -56,11 +56,12 @@ const SignIn = () => {
       </div>
 
       <div className="max-w-md w-full space-y-8">
-
         <div className="bg-orange-50 dark:bg-[#2d291c] border border-orange-200 dark:border-orange-800 rounded-md p-4">
           <div className="flex items-center justify-between">
             <div>
-              <h3 className="text-sm font-medium text-orange-800 dark:text-orange-300">Admin Dashboard</h3>
+              <h3 className="text-sm font-medium text-orange-800 dark:text-orange-300">
+                Admin Dashboard
+              </h3>
               <p className="text-xs text-orange-600 dark:text-orange-400">
                 Welcome to Admin Dashboard
               </p>

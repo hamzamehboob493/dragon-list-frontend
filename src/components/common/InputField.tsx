@@ -32,7 +32,7 @@ const InputField: React.FC<InputFieldProps> = ({
           className={`w-full h-12 px-4 rounded-lg font-circular placeholder:font-circular focus:border focus:border-white border ${customClass} ${disabled ? "!bg-[#2d291c]" : ""}`}
           disabled={disabled}
           value={value}
-          onChange={()=> {}}
+          onChange={() => {}}
           accept={type === "file" ? accept : undefined}
         />
         {type === "password" && showEyeIcon && (

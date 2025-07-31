@@ -1,17 +1,17 @@
-import type { NextConfig } from 'next'
+import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  darkMode: 'class',
+  darkMode: "class",
   images: {
     domains: ["images.pexels.com", "dummyjson.com"],
     remotePatterns: [
       {
-        protocol: 'https',
-        hostname: 'images.pexels.com',
-        pathname: '/photos/**',
+        protocol: "https",
+        hostname: "images.pexels.com",
+        pathname: "/photos/**",
       },
     ],
   },
-}
+};
 
-export default nextConfig
+export default nextConfig;

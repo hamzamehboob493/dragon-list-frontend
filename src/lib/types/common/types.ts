@@ -1,7 +1,8 @@
 import { ReactNode } from "react";
 import { UseFormRegisterReturn } from "react-hook-form";
 
-export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+export interface ButtonProps
+  extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   customClass?: string;
   loading?: boolean;
 }
@@ -12,7 +13,11 @@ export interface DataTableProps<T> {
   customClass?: string;
 }
 
-export interface DropdownProps<T extends object, K extends keyof T, V extends keyof T> {
+export interface DropdownProps<
+  T extends object,
+  K extends keyof T,
+  V extends keyof T,
+> {
   options: T[];
   value?: T | null;
   onChange: (value: T) => void;
@@ -52,4 +57,3 @@ export interface LoaderProps {
   color?: string;
   customClass?: string;
 }
-

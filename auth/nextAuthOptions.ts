@@ -69,7 +69,10 @@ export const nextAuthOptions: NextAuthOptions = {
       const currentTime = Date.now();
       const bufferTime = 300_000;
 
-      if (token.tokenExpires && currentTime >= token.tokenExpires - bufferTime) {
+      if (
+        token.tokenExpires &&
+        currentTime >= token.tokenExpires - bufferTime
+      ) {
         const refreshedToken = await refreshAccessToken(token);
         return refreshedToken;
       }
