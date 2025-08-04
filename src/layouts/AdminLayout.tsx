@@ -39,7 +39,7 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
               !isSidebarOpen && "hidden"
             }`}
           >
-            Admin Panel
+            DRAGONS LIST 
           </h1>
           <button
             onClick={() => setIsSidebarOpen(!isSidebarOpen)}

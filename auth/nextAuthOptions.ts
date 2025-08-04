@@ -69,17 +69,40 @@ export const nextAuthOptions: NextAuthOptions = {
       const currentTime = Date.now();
       const bufferTime = 300_000;
 
-      if (
-        token.tokenExpires &&
-        currentTime >= token.tokenExpires - bufferTime
-      ) {
-        const refreshedToken = await refreshAccessToken(token);
-        return refreshedToken;
+      if (token.tokenExpires && currentTime >= token.tokenExpires - bufferTime) {
+        try {
+          const refreshedToken = await refreshAccessToken(token);
+          if (refreshedToken.error) {
+            // Mark token as invalid to trigger logout in session callback
+            return { ...token, error: "RefreshAccessTokenError" };
+          }
+          return refreshedToken;
+        } catch (error) {
+          console.error("JWT callback refresh error:", error);
+          return { ...token, error: "RefreshAccessTokenError" };
+        }
       }
 
       return token;
     },
     async session({ session, token }) {
+      if (token.error === "RefreshAccessTokenError") {
+        // Force sign out by returning a dummy session that will fail checks
+        return {
+          ...session,
+          user: {
+            ...session.user,
+            name: null,
+            email: null,
+            id: null,
+            role: null,
+            accessToken: null,
+            refreshToken: null,
+            tokenExpires: null,
+          },
+        };
+      }
+
       if (session.user) {
         session.user.id = token.id as string;
         session.user.name = token.name;
@@ -89,6 +112,7 @@ export const nextAuthOptions: NextAuthOptions = {
         session.user.refreshToken = token.refreshToken;
         session.user.tokenExpires = token.tokenExpires;
       }
+
       return session;
     },
   },

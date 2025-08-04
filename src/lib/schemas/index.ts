@@ -77,7 +77,6 @@ export const meetingSchema = yup.object().shape({
   }),
   recurrenceRule: yup.string().optional(),
   seriesId: yup.string().optional(),
-  parentMeetingId: yup.number().optional(),
   originalStartTime: yup.string().required(), //.matches(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$/, 'Invalid original start time format'),
   recurrenceEndDate: yup.string().optional(), //.matches(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$/, 'Invalid recurrence end date format'),
   maxOccurrences: yup

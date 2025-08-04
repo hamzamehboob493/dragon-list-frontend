@@ -67,11 +67,8 @@ const UsersPage = () => {
       const response = await getAction(routes.api.users.index);
       if (response?.status === 200) {
         setUsers(response?.data.data || []);
-      } else {
-        // showErrorToast("Failed to fetch users");
       }
     } catch (error) {
-      // showErrorToast("Error fetching users");
       console.error("Error fetching users:", error);
     } finally {
       setLoading(false);
@@ -91,7 +88,6 @@ const UsersPage = () => {
           await getUsersData();
           showSuccessToast("User updated successfully");
         } else {
-          // showErrorToast(response?.data.message || "Error updating user");
         }
       } else {
         response = await createAction(routes.api.users.index, data);
@@ -99,11 +95,9 @@ const UsersPage = () => {
           await getUsersData();
           showSuccessToast("User created successfully");
         } else {
-          // showErrorToast(response?.data.message || "Error creating user");
         }
       }
     } catch (error) {
-      // showErrorToast("Error submitting user");
       console.error("Error submitting user:", error);
     } finally {
       setShowModal(false);
@@ -122,8 +116,6 @@ const UsersPage = () => {
       if (response?.status === 200) {
         await getUsersData();
         showSuccessToast("User deleted successfully");
-      } else {
-        // showErrorToast(response?.data.message || "Error deleting user");
       }
     } catch (error) {
       // showErrorToast("Error deleting user");
@@ -179,13 +171,13 @@ const UsersPage = () => {
             },
             {
               label: "Active Users",
-              count: users.filter((u) => u.status?.id === "active").length,
+              count: users.filter((u) => u.status?.name === "active").length,
               icon: "fas fa-user-check",
               color: "green",
             },
             {
               label: "Admins",
-              count: users.filter((u) => u.role?.id === "admin").length,
+              count: users.filter((u) => u.role?.name === "admin").length,
               icon: "fas fa-user-shield",
               color: "purple",
             },
@@ -256,7 +248,7 @@ const UsersPage = () => {
             <table className="w-full">
               <thead className="bg-gray-50 dark:bg-gray-700">
                 <tr>
-                  {["Name", "Email", "Role", "Status", "Team", "Actions"].map(
+                  {["Name", "Email", "Role", "Status", "Actions"].map(
                     (header) => (
                       <th
                         key={header}
@@ -305,11 +297,11 @@ const UsersPage = () => {
                           {user.status?.name}
                         </span>
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
+                      {/* <td className="px-6 py-4 whitespace-nowrap">
                         <div className="text-sm text-gray-900 dark:text-white">
-                          {/* {user.team.name} */}
+                          <Link href={`${routes.ui.dashboard.teams}/${user?.team.id}`} className="text-orange-500" >{user.team.name}</Link>
                         </div>
-                      </td>
+                      </td> */}
                       <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                         <div className="flex space-x-2">
                           <button

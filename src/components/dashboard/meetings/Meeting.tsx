@@ -2,11 +2,11 @@
 
 import React, { useEffect, useState } from "react";
 import AdminLayout from "@/layouts/AdminLayout";
+import Loader from "@/components/common/Loader";
+import Link from "next/link";
 import { getAction } from "@/lib/actions/crudActions";
 import { routes } from "@/lib/routes";
 import { Meeting, Team, User } from "@/lib/types/dashboard/types";
-import Loader from "@/components/common/Loader";
-import Link from "next/link";
 import { useParams } from "next/navigation";
 
 const MeetingShow: React.FC = () => {
@@ -308,16 +308,6 @@ const MeetingShow: React.FC = () => {
                     {meeting.isException ? "Yes" : "No"}
                   </div>
                 </div>
-                {meeting.parentMeetingId && (
-                  <div className="flex items-center">
-                    <div className="w-1/3 text-sm font-medium text-gray-700 dark:text-gray-300">
-                      Parent Meeting ID
-                    </div>
-                    <div className="w-2/3 text-sm text-gray-900 dark:text-white">
-                      {meeting.parentMeetingId}
-                    </div>
-                  </div>
-                )}
                 {meeting.originalStartTime && (
                   <div className="flex items-center">
                     <div className="w-1/3 text-sm font-medium text-gray-700 dark:text-gray-300">

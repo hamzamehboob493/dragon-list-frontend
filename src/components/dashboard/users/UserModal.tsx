@@ -81,7 +81,7 @@ const UserModal: React.FC<UserModalProps> = ({
     const submitData = {
       ...data,
       team: { id: data.team.id },
-      role: { id: data.role?.id == '1' ? '1' : '2' }, // only users can be created from portal
+      role: { id: data.role?.id == '1' ? '1' : '2' }, // only non-admin users can be created from portal
     };
     onSubmit(submitData as UserFormValues);
     onClose();

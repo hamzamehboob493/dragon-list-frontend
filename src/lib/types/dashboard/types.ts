@@ -1,29 +1,58 @@
+// @/lib/types/dashboard/types.ts
+
+export interface Role {
+  id: number;
+  name: string;
+  __entity?: string;
+}
+
+export interface Status {
+  id: number;
+  name: string;
+  __entity?: string;
+}
+
+export interface TeamMember {
+  id: number;
+  firstName: string;
+  lastName: string;
+  phoneNumber: string;
+  role: Role;
+  status: Status;
+  createdAt: string;
+  updatedAt: string;
+  deletedAt: string | null;
+  team?: Team; // Optional, as it may not always be needed
+}
+
 export interface Team {
   id: number;
   name: string;
   description: string;
   code: string;
   isActive: boolean;
-  createdAt?: Date | undefined;
-  updatedAt?: Date | undefined;
-  members: string[];
+  createdAt: string; // API returns string, not Date
+  updatedAt: string;
+  deletedAt: string | null;
+  members: TeamMember[];
 }
 
-export interface TeamModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  onSubmit: (data: TeamFormValues) => void;
-  team?: Team | null;
-  loading: boolean;
-}
-
-export type TeamFormValues = {
-  id?: string;
+// Type for the form values used in TeamModal
+export interface TeamFormValues {
   name: string;
   description: string;
   code: string;
   isActive: boolean;
-};
+}
+
+// Props for the TeamModal component
+export interface TeamModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  onSubmit: (data: TeamFormValues) => void;
+  loading: boolean;
+  team?: Team | null;
+}
 
 export interface UserFormValues {
   email: string;
@@ -70,8 +99,8 @@ export interface Meeting {
   googleMeetId: string;
   googleDocId: string;
   googleDriveFolderId: string;
-  teamId: number;
-  organizerId: number;
+  teamId: number | undefined;
+  organizerId: number | undefined;
   startTime: string;
   endTime: string;
   status: string;
@@ -79,7 +108,6 @@ export interface Meeting {
   recurrencePattern?: string;
   recurrenceRule?: string;
   seriesId?: string;
-  parentMeetingId?: number;
   originalStartTime: string;
   recurrenceEndDate?: string;
   maxOccurrences?: number;

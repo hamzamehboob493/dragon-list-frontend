@@ -19,11 +19,22 @@ const TeamModal: React.FC<TeamModalProps> = ({
     reset,
   } = useForm<TeamFormValues>({
     resolver: yupResolver(teamSchema),
+    defaultValues: {
+      name: "",
+      description: "",
+      code: "",
+      isActive: true,
+    },
   });
 
   React.useEffect(() => {
     if (team) {
-      reset();
+      reset({
+        name: team.name,
+        description: team.description,
+        code: team.code,
+        isActive: team.isActive,
+      });
     } else {
       reset({
         name: "",

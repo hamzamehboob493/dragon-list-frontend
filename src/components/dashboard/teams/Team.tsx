@@ -4,12 +4,12 @@ import AdminLayout from "@/layouts/AdminLayout";
 import { getAction } from "@/lib/actions/crudActions";
 import { formatDate } from "@/lib/helpers/formatDate";
 import { routes } from "@/lib/routes";
-import { Team as TeamType } from "@/lib/types/dashboard/types";
+import { Team as TeatType } from "@/lib/types/dashboard/types";
 import { useParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
 const Team: React.FC = () => {
-  const [team, setTeam] = useState<TeamType | null>(null);
+  const [team, setTeam] = useState<TeatType | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -132,7 +132,7 @@ const Team: React.FC = () => {
                     Created At
                   </div>
                   <div className="w-2/3 text-sm text-gray-900 dark:text-white">
-                    {formatDate(`${team.createdAt}`)}
+                    {formatDate(team.createdAt)}
                   </div>
                 </div>
                 <div className="flex items-center">
@@ -140,7 +140,7 @@ const Team: React.FC = () => {
                     Updated At
                   </div>
                   <div className="w-2/3 text-sm text-gray-900 dark:text-white">
-                    {formatDate(`${team.updatedAt}`)}
+                    {formatDate(team.updatedAt)}
                   </div>
                 </div>
               </div>
@@ -154,16 +154,49 @@ const Team: React.FC = () => {
               </h2>
               <div className="text-sm text-gray-900 dark:text-white">
                 {team.members.length > 0 ? (
-                  <ul className="list-disc pl-5 space-y-2">
-                    {/* {team.members.map((member, index) => (
-                      <li key={index}>{member}</li>
-                    ))} */}
-                    DUMMY
-                  </ul>
+                  <div className="space-y-4">
+                    {team.members.map((member) => (
+                      <div
+                        key={member.id}
+                        className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-700 rounded-lg"
+                      >
+                        <div className="flex-1">
+                          <p className="font-medium">
+                            {member.firstName} {member.lastName}
+                          </p>
+                          <p className="text-gray-500 dark:text-gray-400">
+                            Phone: {member.phoneNumber}
+                          </p>
+                        </div>
+                        <div className="flex-1 text-center">
+                          <span
+                            className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
+                              member.role.name === "admin"
+                                ? "bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-300"
+                                : "bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-300"
+                            }`}
+                          >
+                            {member.role.name}
+                          </span>
+                        </div>
+                        <div className="flex-1 text-right">
+                          <span
+                            className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
+                              member.status.name === "active"
+                                ? "bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-300"
+                                : "bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-300"
+                            }`}
+                          >
+                            {member.status.name}
+                          </span>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
                 ) : (
-                <p className="text-gray-500 dark:text-gray-400">
-                  No members assigned to this team.
-                </p>
+                  <p className="text-gray-500 dark:text-gray-400">
+                    No members assigned to this team.
+                  </p>
                 )}
               </div>
             </div>

@@ -53,11 +53,8 @@ const TeamsPage = () => {
       const response = await getAction(routes.api.teams.index);
       if (response?.status === 200) {
         setTeams(response?.data.data || []);
-      } else {
-        // showErrorToast("Failed to fetch teams");
       }
     } catch (error) {
-      // showErrorToast("Error fetching teams");
       console.error("Error fetching teams:", error);
     } finally {
       setLoading(false);
@@ -77,7 +74,6 @@ const TeamsPage = () => {
           await getTeamsData();
           showSuccessToast("Team updated successfully");
         } else {
-          // showErrorToast(response?.data.message || "Error updating team");
         }
       } else {
         response = await createAction(routes.api.teams.index, data);
@@ -85,11 +81,9 @@ const TeamsPage = () => {
           await getTeamsData();
           showSuccessToast("Team created successfully");
         } else {
-          // showErrorToast(response?.data.message || "Error creating team");
         }
       }
     } catch (error) {
-      // showErrorToast("Error submitting team");
       console.error("Error submitting team:", error);
     } finally {
       setShowModal(false);
@@ -109,10 +103,8 @@ const TeamsPage = () => {
         await getTeamsData();
         showSuccessToast("Team deleted successfully");
       } else {
-        // showErrorToast(response?.data.message || "Error deleting team");
       }
     } catch (error) {
-      // showErrorToast("Error deleting team");
       console.error("Error deleting team:", error);
     } finally {
       setLoading(false);

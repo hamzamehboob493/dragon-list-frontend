@@ -2,10 +2,11 @@
 
 import React, { useEffect, useState } from "react";
 import AdminLayout from "@/layouts/AdminLayout";
+import Link from "next/link";
+import Loader from "@/components/common/Loader";
 import { getAction } from "@/lib/actions/crudActions";
 import { routes } from "@/lib/routes";
 import { User as UserType } from "@/lib/types/dashboard/types";
-import Loader from "@/components/common/Loader";
 import { useParams } from "next/navigation";
 
 const User: React.FC = () => {
@@ -158,7 +159,7 @@ const User: React.FC = () => {
                       Team Name
                     </div>
                     <div className="w-2/3 text-sm text-gray-900 dark:text-white">
-                      {user.team.name}
+                      <Link href={`${routes.ui.dashboard.teams}/${user.team.id}`} className="text-orange-500" >{user.team.name}</Link>
                     </div>
                   </div>
                   <div className="flex items-center">

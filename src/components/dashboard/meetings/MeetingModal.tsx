@@ -40,12 +40,13 @@ const MeetingModal: React.FC<MeetingModalProps> = ({
       googleDriveFolderId: "",
       startTime: "",
       endTime: "",
+      teamId: undefined,
+      organizerId: undefined,
       status: "scheduled",
       meetingType: "one_time",
       recurrencePattern: "",
       recurrenceRule: "",
       seriesId: "",
-      parentMeetingId: undefined,
       originalStartTime: "",
       recurrenceEndDate: "",
       maxOccurrences: 1,
@@ -120,7 +121,6 @@ const MeetingModal: React.FC<MeetingModalProps> = ({
       setValue("recurrencePattern", meeting.recurrencePattern || "");
       setValue("recurrenceRule", meeting.recurrenceRule || "");
       setValue("seriesId", meeting.seriesId || "");
-      setValue("parentMeetingId", meeting.parentMeetingId);
       setValue(
         "originalStartTime",
         meeting.originalStartTime
@@ -144,8 +144,8 @@ const MeetingModal: React.FC<MeetingModalProps> = ({
         googleMeetId: "",
         googleDocId: "",
         googleDriveFolderId: "",
-        // teamId: '',
-        // organizerId: '',
+        teamId: undefined,
+        organizerId: undefined,
         startTime: "",
         endTime: "",
         status: "scheduled",
@@ -153,7 +153,6 @@ const MeetingModal: React.FC<MeetingModalProps> = ({
         recurrencePattern: "",
         recurrenceRule: "",
         seriesId: "",
-        parentMeetingId: undefined,
         originalStartTime: "",
         recurrenceEndDate: "",
         maxOccurrences: 1,
@@ -181,6 +180,8 @@ const MeetingModal: React.FC<MeetingModalProps> = ({
   };
 
   if (!isOpen) return null;
+
+  console.error("Form Errors", errors);
 
   return (
     <div className="fixed inset-0 bg-black/50 bg-opacity-50 flex items-center justify-center z-50">

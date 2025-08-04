@@ -6,7 +6,6 @@ import MeetingModal from "./MeetingModal";
 import ConfirmModal from "@/components/common/ConfirmModal";
 import ToastMessages, {
   showSuccessToast,
-  // showErrorToast,
 } from "@/components/common/ToastMessages";
 import {
   createAction,
@@ -60,12 +59,8 @@ const MeetingsPage = () => {
       const response = await getAction(routes.api.meetings.index);
       if (response?.status === 200) {
         setMeetings(response?.data.data || []);
-      } 
-      // else {
-      //   showErrorToast("Failed to fetch meetings");
-      // }
+      }
     } catch (error) {
-      // showErrorToast("Error fetching meetings");
       console.error("Error fetching meetings:", error);
     } finally {
       setLoading(false);
@@ -85,7 +80,6 @@ const MeetingsPage = () => {
           await getMeetingsData();
           showSuccessToast("Meeting updated successfully");
         } else {
-          // showErrorToast(response?.data.message || "Error updating meeting");
         }
       } else {
         response = await createAction(routes.api.meetings.index, data);
@@ -93,11 +87,9 @@ const MeetingsPage = () => {
           await getMeetingsData();
           showSuccessToast("Meeting created successfully");
         } else {
-          // showErrorToast(response?.data.message || "Error creating meeting");
         }
       }
     } catch (error) {
-      // showErrorToast("Error submitting meeting");
       console.error("Error submitting meeting:", error);
     } finally {
       setShowModal(false);
@@ -117,10 +109,8 @@ const MeetingsPage = () => {
         await getMeetingsData();
         showSuccessToast("Meeting deleted successfully");
       } else {
-        // showErrorToast(response?.data.message || "Error deleting meeting");
       }
     } catch (error) {
-      // showErrorToast("Error deleting meeting");
       console.error("Error deleting meeting:", error);
     } finally {
       setLoading(false);
