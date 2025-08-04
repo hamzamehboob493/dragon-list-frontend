@@ -3,6 +3,8 @@ import { envVars } from "@/config";
 import { getSession, signOut } from "next-auth/react";
 import { redirect } from "next/navigation";
 import { routes } from "../routes";
+import { parseErrorToString } from "../helpers/formatError";
+import { showErrorToast } from "@/components/common/ToastMessages";
 
 const api = axios.create({
   baseURL: envVars.apiBaseUrl,
@@ -35,10 +37,11 @@ api.interceptors.request.use(
 api.interceptors.response.use(
   (response) => response,
   async (error) => {
-    if (
-      error?.response?.status === 401 &&
-      !publicEndpoints.some((endpoint) => error.config?.url?.includes(endpoint))
-    ) {
+    const isPublic = publicEndpoints.some((endpoint) =>
+      error.config?.url?.includes(endpoint),
+    );
+
+    if (error?.response?.status === 401 && !isPublic) {
       try {
         document.cookie.split(";").forEach((c) => {
           document.cookie = c
@@ -47,21 +50,28 @@ api.interceptors.response.use(
         });
 
         await signOut({ redirect: false });
-
         redirect(routes.ui.signIn);
       } catch (logoutError) {
         console.error("Error during forced logout:", logoutError);
+        showErrorToast("Error during logout.");
       }
-    } else if (error.response) {
-      console.log("Response Error:", error.response.data);
-    } else if (error.request) {
-      console.log("Request Error:", error.request);
     } else {
-      console.log("Error:", error.message);
+      const parsedMessage = parseErrorToString(
+        error?.response?.data || error?.message || "Something went wrong"
+      );
+      showErrorToast(parsedMessage);
+
+      if (error.response) {
+        console.log("Response Error:", error.response.data);
+      } else if (error.request) {
+        console.log("Request Error:", error.request);
+      } else {
+        console.log("Error:", error.message);
+      }
     }
 
     return Promise.reject(error);
-  }
+  },
 );
 
 export default api;

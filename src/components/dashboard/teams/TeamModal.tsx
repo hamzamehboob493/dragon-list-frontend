@@ -1,52 +1,56 @@
-import React from 'react';
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { teamSchema } from '@/lib/schemas';
-import { Team, TeamModalProps } from '@/lib/types/dashboard/types';
-import Loader from '@/components/common/Loader';
+import React from "react";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { teamSchema } from "@/lib/schemas";
+import { TeamFormValues, TeamModalProps } from "@/lib/types/dashboard/types";
+import Loader from "@/components/common/Loader";
 
-const TeamModal: React.FC<TeamModalProps> = ({ isOpen, onClose, onSubmit, loading, team = null }) => {
-  const { register, handleSubmit, formState: { errors }, reset } = useForm<Team>({
+const TeamModal: React.FC<TeamModalProps> = ({
+  isOpen,
+  onClose,
+  onSubmit,
+  loading,
+  team = null,
+}) => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm<TeamFormValues>({
     resolver: yupResolver(teamSchema),
-    defaultValues: team || {
-      name: '',
-      description: '',
-      code: '',
-      isActive: true
-    }
   });
 
   React.useEffect(() => {
     if (team) {
-      reset(team);
+      reset();
     } else {
       reset({
-        name: '',
-        description: '',
-        code: '',
-        isActive: true
+        name: "",
+        description: "",
+        code: "",
+        isActive: true,
       });
     }
   }, [team, reset]);
 
-  const handleFormSubmit = (data: Team) => {
+  const handleFormSubmit = (data: TeamFormValues) => {
     onSubmit(data);
-    onClose();
     if (!team) reset();
   };
 
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm flex items-center justify-center">
+    <div className="fixed inset-0 z-50 bg-black/50 flex items-center justify-center">
       <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl p-6 w-full max-w-md">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-xl font-bold text-gray-900 dark:text-white">
-            {team ? 'Edit Team' : 'Add New Team'}
+            {team ? "Edit Team" : "Add New Team"}
           </h2>
           <button
             onClick={onClose}
-            className="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
+            className="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 cursor-pointer"
           >
             <i className="fas fa-times"></i>
           </button>
@@ -59,7 +63,7 @@ const TeamModal: React.FC<TeamModalProps> = ({ isOpen, onClose, onSubmit, loadin
             </label>
             <input
               type="text"
-              {...register('name')}
+              {...register("name")}
               className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
             />
             {errors.name && (
@@ -72,12 +76,14 @@ const TeamModal: React.FC<TeamModalProps> = ({ isOpen, onClose, onSubmit, loadin
               Description
             </label>
             <textarea
-              {...register('description')}
+              {...register("description")}
               className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
               rows={4}
             />
             {errors.description && (
-              <p className="text-red-500 text-sm mt-1">{errors.description.message}</p>
+              <p className="text-red-500 text-sm mt-1">
+                {errors.description.message}
+              </p>
             )}
           </div>
 
@@ -87,7 +93,7 @@ const TeamModal: React.FC<TeamModalProps> = ({ isOpen, onClose, onSubmit, loadin
             </label>
             <input
               type="text"
-              {...register('code')}
+              {...register("code")}
               className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
             />
             {errors.code && (
@@ -100,7 +106,7 @@ const TeamModal: React.FC<TeamModalProps> = ({ isOpen, onClose, onSubmit, loadin
               Status
             </label>
             <select
-              {...register('isActive')}
+              {...register("isActive")}
               className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
             >
               <option value="true">Active</option>
@@ -118,9 +124,11 @@ const TeamModal: React.FC<TeamModalProps> = ({ isOpen, onClose, onSubmit, loadin
             </button>
             <button
               type="submit"
+              disabled={loading}
               className="px-4 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 cursor-pointer flex items-center gap-2"
             >
-              {team ? 'Update Team' : 'Add Team'} {loading && <Loader size={20} />}
+              {team ? "Update Team" : "Add Team"}{" "}
+              {loading && <Loader size={20} />}
             </button>
           </div>
         </form>

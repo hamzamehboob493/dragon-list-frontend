@@ -3,7 +3,7 @@ import { ThemeProvider } from "@/contexts/ThemeContext";
 import SessionWrapper from "../components/SessionWrapper";
 import "./globals.css";
 
-const outfit = Outfit({ 
+const outfit = Outfit({
   subsets: ["latin"],
   display: "swap",
   variable: "--font-outfit",
@@ -11,7 +11,8 @@ const outfit = Outfit({
 
 export const metadata = {
   title: "Modern Platform",
-  description: "A modern, feature-rich platform built with Next.js and Tailwind CSS",
+  description:
+    "A modern, feature-rich platform built with Next.js and Tailwind CSS",
 };
 
 export default function RootLayout({
@@ -22,8 +23,8 @@ export default function RootLayout({
   return (
     <html lang="en" className={outfit.variable}>
       <head>
-        <link 
-          rel="stylesheet" 
+        <link
+          rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
         />
       </head>

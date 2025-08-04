@@ -10,20 +10,18 @@ A modern, production-ready admin interface featuring:
 🧾 Form handling with react-hook-form + Yup  
 🔄 Token refresh mechanism for secure authentication
 
-
 📁 Project Structure Highlights
-components/common/       # Reusable, responsive UI components (Button, InputField, etc.)
+components/common/ # Reusable, responsive UI components (Button, InputField, etc.)
 lib/
-├── api/axios.ts        # Central Axios instance for API calls
-├── services/           # API interactions for list management and other features
-├── schemas/            # Yup validation schemas for forms
-├── types/              # TypeScript types/interfaces for lists and teams
-├── routes.ts           # Centralized route constants
-├── constants/          # Shared values (dropdowns, sidebar data, etc.)
-├── helpers/            # Utility functions (formatDate, etc.)
-└── staticData.ts       # Mock data for testing
-layouts/                # Admin layout for consistent UI
-
+├── api/axios.ts # Central Axios instance for API calls
+├── services/ # API interactions for list management and other features
+├── schemas/ # Yup validation schemas for forms
+├── types/ # TypeScript types/interfaces for lists and teams
+├── routes.ts # Centralized route constants
+├── constants/ # Shared values (dropdowns, sidebar data, etc.)
+├── helpers/ # Utility functions (formatDate, etc.)
+└── staticData.ts # Mock data for testing
+layouts/ # Admin layout for consistent UI
 
 ✅ Features
 
@@ -36,16 +34,21 @@ layouts/                # Admin layout for consistent UI
 📊 Responsive tables and forms for list management
 🔐 Protected routes with authentication middleware
 
-
 Getting Started
 First, set up the environment variables by creating a .env file based on .env.example and configuring the necessary API endpoints and secrets (e.g., NEXTAUTH_SECRET, API base URL).
 Then, run the development server:
 npm run dev
+
 # or
+
 yarn dev
+
 # or
+
 pnpm dev
+
 # or
+
 bun dev
 
 Open http://localhost:3000 with your browser to see the admin portal.
@@ -59,7 +62,6 @@ Authentication: Secure login with Credentials, Google, or Facebook providers, wi
 Responsive Design: Fully responsive UI with Tailwind CSS, supporting light and dark themes.
 Form Validation: Robust form handling with react-hook-form and Yup for list creation and updates.
 
-
 🐳 Running with Docker
 To run the project using Docker:
 
@@ -68,9 +70,7 @@ Build and run the container:
 
 docker-compose up --build
 
-
 Access the app at http://localhost:3000.
-
 
 🔧 API Integration
 The admin portal integrates with the backend API at https://web-production-67a12.up.railway.app. Ensure the API base URL and authentication endpoints (e.g., /api/v1/auth/refresh) are correctly configured in .env.

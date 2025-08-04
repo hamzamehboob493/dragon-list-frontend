@@ -16,29 +16,36 @@ const ProfilePage = () => {
 
   useEffect(() => {
     if (currentUser) {
-      const [firstName, ...lastNameParts] = currentUser.name?.split(" ") || ["", ""];
+      const [firstName, ...lastNameParts] = currentUser.name?.split(" ") || [
+        "",
+        "",
+      ];
       const lastName = lastNameParts.join(" ");
-      
-      setProfileData(prev => ({
+
+      setProfileData((prev) => ({
         ...prev,
         personal: {
           ...prev.personal,
           firstName: firstName || "",
           lastName: lastName || "",
           email: currentUser.email || "",
-          website: `https://${currentUser.username || "user"}.dev`
-        }
+          website: `https://${currentUser.username || "user"}.dev`,
+        },
       }));
     }
   }, [currentUser]);
 
-  const handleInputChange = (category: string, field: string, value: string) => {
-    setProfileData(prev => ({
+  const handleInputChange = (
+    category: string,
+    field: string,
+    value: string,
+  ) => {
+    setProfileData((prev) => ({
       ...prev,
       [category]: {
         ...prev[category as keyof typeof prev],
-        [field]: value
-      }
+        [field]: value,
+      },
     }));
   };
 
@@ -69,7 +76,9 @@ const ProfilePage = () => {
         <div className="flex justify-between items-center">
           <div>
             <h1 className="text-3xl font-bold text-gray-900">Profile</h1>
-            <p className="text-gray-600 mt-1">Manage your personal information and preferences</p>
+            <p className="text-gray-600 mt-1">
+              Manage your personal information and preferences
+            </p>
           </div>
           <div className="flex space-x-3">
             {isEditing ? (
@@ -116,7 +125,9 @@ const ProfilePage = () => {
                   />
                   {isEditing && (
                     <Button
-                      onClick={() => {/* open image upload modal */}}
+                      onClick={() => {
+                        /* open image upload modal */
+                      }}
                       customClass="absolute bottom-0 right-0 bg-orange-500 text-white p-2 rounded-full hover:bg-orange-600 transition-colors"
                     >
                       <i className="fas fa-camera text-sm"></i>
@@ -124,10 +135,15 @@ const ProfilePage = () => {
                   )}
                 </div>
                 <h3 className="mt-4 text-lg font-semibold text-gray-900">
-                  {profileData.personal.firstName} {profileData.personal.lastName}
+                  {profileData.personal.firstName}{" "}
+                  {profileData.personal.lastName}
                 </h3>
-                <p className="text-gray-600">{profileData.professional.jobTitle}</p>
-                <p className="text-sm text-gray-500">{profileData.personal.location}</p>
+                <p className="text-gray-600">
+                  {profileData.professional.jobTitle}
+                </p>
+                <p className="text-sm text-gray-500">
+                  {profileData.personal.location}
+                </p>
               </div>
 
               <div className="mt-6 space-y-4">
@@ -145,7 +161,10 @@ const ProfilePage = () => {
                 </div>
                 <div className="flex items-center text-sm text-gray-600">
                   <i className="fas fa-globe w-4 mr-3"></i>
-                  <a href={profileData.personal.website} className="text-orange-600 hover:text-orange-700">
+                  <a
+                    href={profileData.personal.website}
+                    className="text-orange-600 hover:text-orange-700"
+                  >
                     Portfolio
                   </a>
                 </div>
@@ -176,7 +195,9 @@ const ProfilePage = () => {
             <div className="bg-white rounded-lg shadow-sm border p-6">
               {activeTab === "personal" && (
                 <div className="space-y-6">
-                  <h3 className="text-lg font-semibold text-gray-900">Personal Information</h3>
+                  <h3 className="text-lg font-semibold text-gray-900">
+                    Personal Information
+                  </h3>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -185,7 +206,13 @@ const ProfilePage = () => {
                       <input
                         type="text"
                         value={profileData.personal.firstName}
-                        onChange={(e) => handleInputChange("personal", "firstName", e.target.value)}
+                        onChange={(e) =>
+                          handleInputChange(
+                            "personal",
+                            "firstName",
+                            e.target.value,
+                          )
+                        }
                         disabled={!isEditing}
                         className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 disabled:bg-gray-50"
                       />
@@ -197,7 +224,13 @@ const ProfilePage = () => {
                       <input
                         type="text"
                         value={profileData.personal.lastName}
-                        onChange={(e) => handleInputChange("personal", "lastName", e.target.value)}
+                        onChange={(e) =>
+                          handleInputChange(
+                            "personal",
+                            "lastName",
+                            e.target.value,
+                          )
+                        }
                         disabled={!isEditing}
                         className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 disabled:bg-gray-50"
                       />
@@ -211,7 +244,9 @@ const ProfilePage = () => {
                       <input
                         type="email"
                         value={profileData.personal.email}
-                        onChange={(e) => handleInputChange("personal", "email", e.target.value)}
+                        onChange={(e) =>
+                          handleInputChange("personal", "email", e.target.value)
+                        }
                         disabled={!isEditing}
                         className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 disabled:bg-gray-50"
                       />
@@ -223,7 +258,9 @@ const ProfilePage = () => {
                       <input
                         type="tel"
                         value={profileData.personal.phone}
-                        onChange={(e) => handleInputChange("personal", "phone", e.target.value)}
+                        onChange={(e) =>
+                          handleInputChange("personal", "phone", e.target.value)
+                        }
                         disabled={!isEditing}
                         className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 disabled:bg-gray-50"
                       />
@@ -235,7 +272,9 @@ const ProfilePage = () => {
                     </label>
                     <textarea
                       value={profileData.personal.bio}
-                      onChange={(e) => handleInputChange("personal", "bio", e.target.value)}
+                      onChange={(e) =>
+                        handleInputChange("personal", "bio", e.target.value)
+                      }
                       disabled={!isEditing}
                       rows={4}
                       className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 disabled:bg-gray-50"
@@ -246,7 +285,9 @@ const ProfilePage = () => {
 
               {activeTab === "professional" && (
                 <div className="space-y-6">
-                  <h3 className="text-lg font-semibold text-gray-900">Professional Information</h3>
+                  <h3 className="text-lg font-semibold text-gray-900">
+                    Professional Information
+                  </h3>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -255,7 +296,13 @@ const ProfilePage = () => {
                       <input
                         type="text"
                         value={profileData.professional.jobTitle}
-                        onChange={(e) => handleInputChange("professional", "jobTitle", e.target.value)}
+                        onChange={(e) =>
+                          handleInputChange(
+                            "professional",
+                            "jobTitle",
+                            e.target.value,
+                          )
+                        }
                         disabled={!isEditing}
                         className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 disabled:bg-gray-50"
                       />
@@ -267,7 +314,13 @@ const ProfilePage = () => {
                       <input
                         type="text"
                         value={profileData.professional.company}
-                        onChange={(e) => handleInputChange("professional", "company", e.target.value)}
+                        onChange={(e) =>
+                          handleInputChange(
+                            "professional",
+                            "company",
+                            e.target.value,
+                          )
+                        }
                         disabled={!isEditing}
                         className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 disabled:bg-gray-50"
                       />
@@ -286,7 +339,9 @@ const ProfilePage = () => {
                           {skill}
                           {isEditing && (
                             <Button
-                              onClick={() => {/* abc */}}
+                              onClick={() => {
+                                /* abc */
+                              }}
                               customClass="ml-2 text-orange-600 hover:text-orange-800"
                             >
                               <i className="fas fa-times text-xs"></i>
@@ -296,7 +351,9 @@ const ProfilePage = () => {
                       ))}
                       {isEditing && (
                         <Button
-                          onClick={() => {/* abc */}}
+                          onClick={() => {
+                            /* abc */
+                          }}
                           customClass="inline-flex items-center px-3 py-1 rounded-full text-sm border-2 border-dashed border-gray-300 text-gray-600 hover:border-orange-300 hover:text-orange-600"
                         >
                           <i className="fas fa-plus mr-1"></i>
@@ -310,7 +367,9 @@ const ProfilePage = () => {
 
               {activeTab === "preferences" && (
                 <div className="space-y-6">
-                  <h3 className="text-lg font-semibold text-gray-900">Preferences</h3>
+                  <h3 className="text-lg font-semibold text-gray-900">
+                    Preferences
+                  </h3>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -318,7 +377,13 @@ const ProfilePage = () => {
                       </label>
                       <select
                         value={profileData.preferences.language}
-                        onChange={(e) => handleInputChange("preferences", "language", e.target.value)}
+                        onChange={(e) =>
+                          handleInputChange(
+                            "preferences",
+                            "language",
+                            e.target.value,
+                          )
+                        }
                         disabled={!isEditing}
                         className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 disabled:bg-gray-50"
                       >
@@ -334,14 +399,28 @@ const ProfilePage = () => {
                       </label>
                       <select
                         value={profileData.preferences.timezone}
-                        onChange={(e) => handleInputChange("preferences", "timezone", e.target.value)}
+                        onChange={(e) =>
+                          handleInputChange(
+                            "preferences",
+                            "timezone",
+                            e.target.value,
+                          )
+                        }
                         disabled={!isEditing}
                         className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 disabled:bg-gray-50"
                       >
-                        <option value="Pacific Time (PT)">Pacific Time (PT)</option>
-                        <option value="Mountain Time (MT)">Mountain Time (MT)</option>
-                        <option value="Central Time (CT)">Central Time (CT)</option>
-                        <option value="Eastern Time (ET)">Eastern Time (ET)</option>
+                        <option value="Pacific Time (PT)">
+                          Pacific Time (PT)
+                        </option>
+                        <option value="Mountain Time (MT)">
+                          Mountain Time (MT)
+                        </option>
+                        <option value="Central Time (CT)">
+                          Central Time (CT)
+                        </option>
+                        <option value="Eastern Time (ET)">
+                          Eastern Time (ET)
+                        </option>
                       </select>
                     </div>
                   </div>
@@ -350,21 +429,28 @@ const ProfilePage = () => {
 
               {activeTab === "security" && (
                 <div className="space-y-6">
-                  <h3 className="text-lg font-semibold text-gray-900">Security Settings</h3>
+                  <h3 className="text-lg font-semibold text-gray-900">
+                    Security Settings
+                  </h3>
                   <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
                     <div className="flex">
                       <i className="fas fa-exclamation-triangle text-yellow-600 mt-1 mr-3"></i>
                       <div>
-                        <h4 className="text-sm font-medium text-yellow-800">Password Security</h4>
+                        <h4 className="text-sm font-medium text-yellow-800">
+                          Password Security
+                        </h4>
                         <p className="text-sm text-yellow-700 mt-1">
-                          Your password was last changed 45 days ago. Consider updating it regularly.
+                          Your password was last changed 45 days ago. Consider
+                          updating it regularly.
                         </p>
                       </div>
                     </div>
                   </div>
                   <div className="space-y-4">
                     <div>
-                      <h4 className="text-md font-medium text-gray-900 mb-4">Change Password</h4>
+                      <h4 className="text-md font-medium text-gray-900 mb-4">
+                        Change Password
+                      </h4>
                       <div className="space-y-4">
                         <div>
                           <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -387,7 +473,9 @@ const ProfilePage = () => {
                           />
                         </div>
                         <Button
-                          onClick={() => {/* handle password update */}}
+                          onClick={() => {
+                            /* handle password update */
+                          }}
                           customClass="bg-orange-500 text-white px-4 py-2 rounded-lg hover:bg-orange-600 transition-colors"
                         >
                           Update Password

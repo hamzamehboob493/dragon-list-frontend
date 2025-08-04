@@ -4,9 +4,7 @@ import React from "react";
 import Dashboard from "@/components/dashboard";
 
 const page = () => {
-  return (
-    <Dashboard />
-  );
+  return <Dashboard />;
 };
 
 export default page;

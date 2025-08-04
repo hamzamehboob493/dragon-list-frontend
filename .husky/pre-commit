@@ -1,0 +1,8 @@
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+echo ">>>>>>>>>>>>>>>>>>>>>>>>Running build"
+npm run build
+
+echo ">>>>>>>>>>>>>>>>>>>>>>>>>>>Linting code..."
+npm run lint
