@@ -172,7 +172,7 @@ const Dashboard = () => {
               </div>
             )}
 
-            {activeTab === "analytics" && (
+            {activeTab === "chatbot" && (
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-sm">
                   <h3 className="text-lg font-semibold mb-4 text-gray-900 dark:text-white">

@@ -76,61 +76,6 @@ export const stats = [
   },
 ];
 
-export const analyticsData = {
-  overview: {
-    totalVisitors: 12345,
-    pageViews: 45678,
-    bounceRate: 32.5,
-    avgSessionDuration: "3m 45s",
-  },
-  trafficSources: [
-    { source: "Direct", visitors: 4500, percentage: 36.5 },
-    { source: "Organic Search", visitors: 3200, percentage: 25.9 },
-    { source: "Social Media", visitors: 2100, percentage: 17.0 },
-    { source: "Referral", visitors: 1800, percentage: 14.6 },
-    { source: "Email", visitors: 745, percentage: 6.0 },
-  ],
-  topPages: [
-    { page: routes.ui.dashboard.index, views: 8500, percentage: 18.6 },
-    { page: routes.ui.root, views: 6200, percentage: 13.6 },
-    { page: routes.ui.dashboard.teams, views: 4800, percentage: 10.5 },
-    { page: routes.ui.dashboard.analytics, views: 3900, percentage: 8.5 },
-    { page: routes.ui.dashboard.settings, views: 2100, percentage: 4.6 },
-  ],
-  deviceTypes: [
-    { device: "Desktop", teams: 7200, percentage: 58.3 },
-    { device: "Mobile", teams: 4100, percentage: 33.2 },
-    { device: "Tablet", teams: 1045, percentage: 8.5 },
-  ],
-  recentActivity: [
-    {
-      action: "New user registration",
-      user: "john.doe@example.com",
-      time: "2 minutes ago",
-    },
-    {
-      action: "Page view",
-      user: "jane.smith@example.com",
-      time: "5 minutes ago",
-    },
-    {
-      action: "Form submission",
-      user: "mike.johnson@example.com",
-      time: "8 minutes ago",
-    },
-    {
-      action: "User login",
-      user: "sarah.wilson@example.com",
-      time: "12 minutes ago",
-    },
-    {
-      action: "File download",
-      user: "david.brown@example.com",
-      time: "15 minutes ago",
-    },
-  ],
-};
-
 export const profileData = {
   personal: {
     firstName: "",
@@ -205,9 +150,9 @@ export const sidebarItems = [
     href: routes.ui.dashboard.meetings,
   },
   {
-    icon: "fas fa-chart-bar",
-    label: "Analytics",
-    href: routes.ui.dashboard.analytics,
+    icon: "fas fa-comments",
+    label: "Chat Bot",
+    href: routes.ui.dashboard.chatbot,
   },
   { icon: "fas fa-cog", label: "Settings", href: routes.ui.dashboard.settings },
 ];

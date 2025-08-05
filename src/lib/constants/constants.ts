@@ -8,7 +8,7 @@ export const profileTabs = [
 export const dashboardTabs = [
   { id: "overview", label: "Overview" },
   { id: "teams", label: "Teams" },
-  { id: "analytics", label: "Analytics" },
+  { id: "chatbot", label: "Chat Bot" },
 ];
 
 export const settingsTabs = [

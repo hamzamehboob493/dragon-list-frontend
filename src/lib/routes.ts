@@ -5,7 +5,7 @@ export const routes = {
     dashboard: {
       index: "/dashboard",
       teams: "/dashboard/teams",
-      analytics: "/dashboard/analytics",
+      chatbot: "/dashboard/chatbot",
       settings: "/dashboard/settings",
       profile: "/dashboard/profile",
       users: "/dashboard/users",
@@ -26,5 +26,8 @@ export const routes = {
     meetings: {
       index: "/meetings",
     },
+    chatbot: {
+      index: "/chatbot"
+    }
   },
 };
