@@ -26,6 +26,18 @@ export const showErrorToast = (message: string) => {
   });
 };
 
+export const showParsingToast = (message: string) => {
+  toast.success(message, {
+    position: "top-right",
+    autoClose: 6000, // Longer duration for parsing messages
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    theme: "colored",
+  });
+};
+
 const ToastMessages: React.FC = () => {
   return (
     <ToastContainer

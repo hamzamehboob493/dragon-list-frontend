@@ -53,43 +53,8 @@ export const meetingSchema = yup.object().shape({
     .string()
     .required("Google Meet ID is required")
     .matches(/^[a-z0-9-]+$/, "Invalid Google Meet ID format"),
-  googleDocId: yup.string().optional(),
-  googleDriveFolderId: yup.string().optional(),
   teamId: yup.number().required("Team is required"),
   organizerId: yup.number().required("Organizer is required"),
-  startTime: yup.string().required("Start time is required"), //.matches(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$/, 'Invalid start time format'),
-  endTime: yup.string().required("End time is required"), //.matches(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$/, 'Invalid end time format'),
-  status: yup
-    .string()
-    .required("Status is required")
-    .oneOf(["scheduled", "completed", "cancelled"], "Invalid status"),
-  meetingType: yup
-    .string()
-    .required("Meeting type is required")
-    .oneOf(["one_time", "recurring"], "Invalid meeting type"),
-  recurrencePattern: yup.string().when("meetingType", {
-    is: "recurring",
-    then: (schema) =>
-      schema
-        .required("Recurrence pattern is required")
-        .oneOf(["daily", "weekly", "monthly"], "Invalid recurrence pattern"),
-    otherwise: (schema) => schema.optional(),
-  }),
-  recurrenceRule: yup.string().optional(),
-  seriesId: yup.string().optional(),
-  originalStartTime: yup.string().required(), //.matches(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$/, 'Invalid original start time format'),
-  recurrenceEndDate: yup.string().optional(), //.matches(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$/, 'Invalid recurrence end date format'),
-  maxOccurrences: yup
-    .number()
-    .optional()
-    .min(1, "Max occurrences must be at least 1"),
-  isException: yup.boolean().required("Exception status is required"),
-  participantCount: yup
-    .number()
-    .required("Participant count is required")
-    .min(1, "At least one participant is required"),
-  recordingUrl: yup
-    .string()
-    .required("Recording url is required")
-    .url("Invalid URL format"),
+  startTime: yup.string().required("Start time is required"),
+  endTime: yup.string().required("End time is required"),
 });

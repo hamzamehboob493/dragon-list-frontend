@@ -26,9 +26,15 @@ export const routes = {
     },
     meetings: {
       index: "/meetings",
+      parse: "/dragons-list/generate/meeting",
+      lists: "/dragons-list/meeting",
+    },
+    jobs: {
+      status: "/dragons-list/jobs",
+      result: "/dragons-list/jobs",
     },
     chatbot: {
-      index: "/chatbot"
+      index: "/chatbot",
     },
     whatsappMessages: {
       index: "whatsapp/messages/previous-day",

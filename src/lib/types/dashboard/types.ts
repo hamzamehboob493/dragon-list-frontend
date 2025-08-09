@@ -73,8 +73,8 @@ export interface User {
   lastName: string;
   phoneNumber: string;
   photo?: { id: string; path: string };
-  role: { id: string, name?: string };
-  status: { id: string, name?: string };
+  role: { id: string; name?: string };
+  status: { id: string; name?: string };
   team: {
     id: string;
     name: string;
@@ -124,6 +124,45 @@ export interface MeetingModalProps {
   onSubmit: (data: Meeting) => void;
   meeting?: Meeting | null;
   loading?: boolean;
+}
+
+export interface Task {
+  id: number;
+  title: string;
+  description: string | null;
+  outcome: string;
+  dueDate: string | null;
+  targetDate: string;
+  priority: "high" | "medium" | "low";
+  status: "active" | "completed" | "cancelled";
+  ownerId: number;
+  ownerHandle: string;
+  collaborators: string[] | null;
+  blockers: string | null;
+  extractedFromTranscript: boolean;
+  transcriptSegmentId: number | null;
+  meetingId: number | null;
+  aiConfidence: number;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface DragonsList {
+  id: number;
+  title: string;
+  listDate: string;
+  version: number;
+  operatingRhythm: string[];
+  notes: string;
+  generatedFromMeetingId: number;
+  previousListId: number | null;
+  kpiSnapshot: unknown | null;
+  strategicDirectives: unknown | null;
+  teamId: number | null;
+  createdById: number;
+  createdAt: string;
+  updatedAt: string;
+  tasks: Task[];
 }
 
 export interface WhatsappMessagesPageProps {

@@ -29,34 +29,18 @@ const MeetingModal: React.FC<MeetingModalProps> = ({
     formState: { errors },
     reset,
     setValue,
-    watch,
   } = useForm<Meeting>({
-    resolver: yupResolver(meetingSchema) as Resolver<Meeting>,
+    resolver: yupResolver(meetingSchema) as unknown as Resolver<Meeting>,
     defaultValues: meeting || {
       title: "",
       description: "",
       googleMeetId: "",
-      googleDocId: "",
-      googleDriveFolderId: "",
-      startTime: "",
-      endTime: "",
       teamId: undefined,
       organizerId: undefined,
-      status: "scheduled",
-      meetingType: "one_time",
-      recurrencePattern: "",
-      recurrenceRule: "",
-      seriesId: "",
-      originalStartTime: "",
-      recurrenceEndDate: "",
-      maxOccurrences: 1,
-      isException: false,
-      participantCount: 1,
-      recordingUrl: "",
+      startTime: "",
+      endTime: "",
     },
   });
-
-  const meetingType = watch("meetingType");
 
   useEffect(() => {
     const getTeamsData = async () => {
@@ -100,8 +84,6 @@ const MeetingModal: React.FC<MeetingModalProps> = ({
       setValue("title", meeting.title);
       setValue("description", meeting.description);
       setValue("googleMeetId", meeting.googleMeetId);
-      setValue("googleDocId", meeting.googleDocId || "");
-      setValue("googleDriveFolderId", meeting.googleDriveFolderId || "");
       setValue("teamId", meeting.teamId);
       setValue("organizerId", meeting.organizerId);
       setValue(
@@ -116,49 +98,15 @@ const MeetingModal: React.FC<MeetingModalProps> = ({
           ? new Date(meeting.endTime).toISOString().slice(0, 16)
           : "",
       );
-      setValue("status", meeting.status);
-      setValue("meetingType", meeting.meetingType);
-      setValue("recurrencePattern", meeting.recurrencePattern || "");
-      setValue("recurrenceRule", meeting.recurrenceRule || "");
-      setValue("seriesId", meeting.seriesId || "");
-      setValue(
-        "originalStartTime",
-        meeting.originalStartTime
-          ? new Date(meeting.originalStartTime).toISOString().slice(0, 16)
-          : "",
-      );
-      setValue(
-        "recurrenceEndDate",
-        meeting.recurrenceEndDate
-          ? new Date(meeting.recurrenceEndDate).toISOString().slice(0, 16)
-          : "",
-      );
-      setValue("maxOccurrences", meeting.maxOccurrences || 1);
-      setValue("isException", meeting.isException);
-      setValue("participantCount", meeting.participantCount);
-      setValue("recordingUrl", meeting.recordingUrl || "");
     } else {
       reset({
         title: "",
         description: "",
         googleMeetId: "",
-        googleDocId: "",
-        googleDriveFolderId: "",
         teamId: undefined,
         organizerId: undefined,
         startTime: "",
         endTime: "",
-        status: "scheduled",
-        meetingType: "one_time",
-        recurrencePattern: "",
-        recurrenceRule: "",
-        seriesId: "",
-        originalStartTime: "",
-        recurrenceEndDate: "",
-        maxOccurrences: 1,
-        isException: false,
-        participantCount: 1,
-        recordingUrl: "",
       });
     }
   }, [meeting, reset, setValue]);
@@ -168,12 +116,6 @@ const MeetingModal: React.FC<MeetingModalProps> = ({
       ...data,
       startTime: data.startTime ? new Date(data.startTime).toISOString() : "",
       endTime: data.endTime ? new Date(data.endTime).toISOString() : "",
-      originalStartTime: data.originalStartTime
-        ? new Date(data.originalStartTime).toISOString()
-        : "",
-      recurrenceEndDate: data.recurrenceEndDate
-        ? new Date(data.recurrenceEndDate).toISOString()
-        : "",
     });
     onClose();
     if (!meeting) reset();
@@ -185,7 +127,7 @@ const MeetingModal: React.FC<MeetingModalProps> = ({
 
   return (
     <div className="fixed inset-0 bg-black/50 bg-opacity-50 flex items-center justify-center z-50">
-      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl p-6 w-full max-w-3xl max-h-screen overflow-y-auto">
+      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl p-6 w-full max-w-2xl max-h-screen overflow-y-auto">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-xl font-bold text-gray-900 dark:text-white">
             {meeting ? "Edit Meeting" : "Add New Meeting"}
@@ -251,42 +193,6 @@ const MeetingModal: React.FC<MeetingModalProps> = ({
                 {errors.description.message}
               </p>
             )}
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                Google Doc ID
-              </label>
-              <input
-                type="text"
-                {...register("googleDocId")}
-                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
-                disabled={loading || teamsLoading || usersLoading}
-              />
-              {errors.googleDocId && (
-                <p className="text-red-500 text-sm mt-1">
-                  {errors.googleDocId.message}
-                </p>
-              )}
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                Google Drive Folder ID
-              </label>
-              <input
-                type="text"
-                {...register("googleDriveFolderId")}
-                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
-                disabled={loading || teamsLoading || usersLoading}
-              />
-              {errors.googleDriveFolderId && (
-                <p className="text-red-500 text-sm mt-1">
-                  {errors.googleDriveFolderId.message}
-                </p>
-              )}
-            </div>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -373,217 +279,6 @@ const MeetingModal: React.FC<MeetingModalProps> = ({
               {errors.endTime && (
                 <p className="text-red-500 text-sm mt-1">
                   {errors.endTime.message}
-                </p>
-              )}
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                Original Start Time
-              </label>
-              <input
-                type="datetime-local"
-                {...register("originalStartTime")}
-                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
-                disabled={loading || teamsLoading || usersLoading}
-              />
-              {errors.originalStartTime && (
-                <p className="text-red-500 text-sm mt-1">
-                  {errors.originalStartTime.message}
-                </p>
-              )}
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                Recurrence End Date
-              </label>
-              <input
-                type="datetime-local"
-                {...register("recurrenceEndDate")}
-                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
-                disabled={loading || teamsLoading || usersLoading}
-              />
-              {errors.recurrenceEndDate && (
-                <p className="text-red-500 text-sm mt-1">
-                  {errors.recurrenceEndDate.message}
-                </p>
-              )}
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                Status
-              </label>
-              <select
-                {...register("status")}
-                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
-                disabled={loading || teamsLoading || usersLoading}
-              >
-                <option value="scheduled">Scheduled</option>
-                <option value="completed">Completed</option>
-                <option value="cancelled">Cancelled</option>
-              </select>
-              {errors.status && (
-                <p className="text-red-500 text-sm mt-1">
-                  {errors.status.message}
-                </p>
-              )}
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                Meeting Type
-              </label>
-              <select
-                {...register("meetingType")}
-                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
-                disabled={loading || teamsLoading || usersLoading}
-              >
-                <option value="one_time">One-Time</option>
-                <option value="recurring">Recurring</option>
-              </select>
-              {errors.meetingType && (
-                <p className="text-red-500 text-sm mt-1">
-                  {errors.meetingType.message}
-                </p>
-              )}
-            </div>
-          </div>
-
-          {meetingType === "recurring" && (
-            <div className="space-y-4">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                    Recurrence Pattern
-                  </label>
-                  <select
-                    {...register("recurrencePattern")}
-                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
-                    disabled={loading || teamsLoading || usersLoading}
-                  >
-                    <option value="">Select Pattern</option>
-                    <option value="daily">Daily</option>
-                    <option value="weekly">Weekly</option>
-                    <option value="monthly">Monthly</option>
-                  </select>
-                  {errors.recurrencePattern && (
-                    <p className="text-red-500 text-sm mt-1">
-                      {errors.recurrencePattern.message}
-                    </p>
-                  )}
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                    Recurrence Rule
-                  </label>
-                  <input
-                    type="text"
-                    {...register("recurrenceRule")}
-                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
-                    disabled={loading || teamsLoading || usersLoading}
-                  />
-                  {errors.recurrenceRule && (
-                    <p className="text-red-500 text-sm mt-1">
-                      {errors.recurrenceRule.message}
-                    </p>
-                  )}
-                </div>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                    Max Occurrences
-                  </label>
-                  <input
-                    type="number"
-                    {...register("maxOccurrences")}
-                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
-                    disabled={loading || teamsLoading || usersLoading}
-                  />
-                  {errors.maxOccurrences && (
-                    <p className="text-red-500 text-sm mt-1">
-                      {errors.maxOccurrences.message}
-                    </p>
-                  )}
-                </div>
-              </div>
-            </div>
-          )}
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                Participant Count
-              </label>
-              <input
-                type="number"
-                {...register("participantCount")}
-                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
-                disabled={loading || teamsLoading || usersLoading}
-              />
-              {errors.participantCount && (
-                <p className="text-red-500 text-sm mt-1">
-                  {errors.participantCount.message}
-                </p>
-              )}
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                Recording URL
-              </label>
-              <input
-                type="text"
-                {...register("recordingUrl")}
-                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
-                disabled={loading || teamsLoading || usersLoading}
-              />
-              {errors.recordingUrl && (
-                <p className="text-red-500 text-sm mt-1">
-                  {errors.recordingUrl.message}
-                </p>
-              )}
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                Is Exception
-              </label>
-              <input
-                type="checkbox"
-                {...register("isException")}
-                className="h-5 w-5 text-orange-500 border-gray-300 dark:border-gray-600 rounded focus:ring-orange-500"
-                disabled={loading || teamsLoading || usersLoading}
-              />
-              {errors.isException && (
-                <p className="text-red-500 text-sm mt-1">
-                  {errors.isException.message}
-                </p>
-              )}
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                Series ID
-              </label>
-              <input
-                type="text"
-                {...register("seriesId")}
-                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
-                disabled={loading || teamsLoading || usersLoading}
-              />
-              {errors.seriesId && (
-                <p className="text-red-500 text-sm mt-1">
-                  {errors.seriesId.message}
                 </p>
               )}
             </div>
