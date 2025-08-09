@@ -125,3 +125,28 @@ export interface MeetingModalProps {
   meeting?: Meeting | null;
   loading?: boolean;
 }
+
+export interface WhatsappMessagesPageProps {
+  id: number;
+  whatsappMessageId: string;
+  fromNumber: string;
+  toNumber: string;
+  fromName: string;
+  messageType: string;
+  content: string;
+  status: string;
+  timestamp: string;
+  mediaUrl: string | null;
+  mediaType: string | null;
+  mediaCaption: string | null;
+  containsActionItems: boolean;
+  containsQuestions: boolean;
+  containsDecisions: boolean;
+  contentCategory: string;
+  contextCategory: string;
+  isGroupMessage: boolean;
+  groupName: string | null;
+  groupId: string | null;
+  createdAt: string;
+  updatedAt: string;
+}

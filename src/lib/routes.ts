@@ -10,6 +10,7 @@ export const routes = {
       profile: "/dashboard/profile",
       users: "/dashboard/users",
       meetings: "/dashboard/meetings",
+      whatsappMessages: "/dashboard/messages",
     },
   },
   api: {
@@ -28,6 +29,9 @@ export const routes = {
     },
     chatbot: {
       index: "/chatbot"
-    }
+    },
+    whatsappMessages: {
+      index: "whatsapp/messages/previous-day",
+    },
   },
 };

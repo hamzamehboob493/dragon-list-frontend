@@ -154,6 +154,11 @@ export const sidebarItems = [
     label: "Chat Bot",
     href: routes.ui.dashboard.chatbot,
   },
+  {
+    icon: "fa-brands fa-whatsapp",
+    label: "Whatsapp",
+    href: routes.ui.dashboard.whatsappMessages,
+  },
   { icon: "fas fa-cog", label: "Settings", href: routes.ui.dashboard.settings },
 ];
 
