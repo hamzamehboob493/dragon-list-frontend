@@ -6,7 +6,7 @@ import TeamModal from "./TeamModal";
 import ConfirmModal from "@/components/common/ConfirmModal";
 import ToastMessages, {
   showSuccessToast,
-  // showErrorToast,
+  showErrorToast,
 } from "@/components/common/ToastMessages";
 import {
   createAction,
@@ -28,18 +28,33 @@ const TeamsPage = () => {
   const [showActiveOnly, setShowActiveOnly] = useState<boolean>(false);
   const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false);
   const [teamToDelete, setTeamToDelete] = useState<Team | null>(null);
+  const [forceUpdate, setForceUpdate] = useState(0); // Force re-render
 
   const filteredTeams = teams.filter((team) => {
     const matchesSearch =
       team.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       team.description.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesStatus = !showActiveOnly || team.isActive;
+    
+    console.log(`Team ${team.id} (${team.name}):`, {
+      matchesSearch,
+      matchesStatus,
+      searchTerm,
+      showActiveOnly,
+      isActive: team.isActive
+    });
+    
     return matchesSearch && matchesStatus;
   });
 
   useEffect(() => {
     getTeamsData();
   }, []);
+
+  // Debug effect to monitor teams state changes
+  useEffect(() => {
+    console.log("Teams state updated:", teams);
+  }, [teams]);
 
   const getStatusBadge = (isActive: boolean) => {
     return isActive
@@ -51,8 +66,15 @@ const TeamsPage = () => {
     setLoading(true);
     try {
       const response = await getAction(routes.api.teams.index);
+      console.log("Teams API response:", response);
       if (response?.status === 200) {
-        setTeams(response?.data.data || []);
+        const teamsData = response?.data.data || [];
+        console.log("Setting teams data:", teamsData);
+        setTeams(teamsData);
+        // Force a re-render to ensure statistics update
+        setForceUpdate(prev => prev + 1);
+      } else {
+        console.error("Failed to fetch teams, status:", response?.status);
       }
     } catch (error) {
       console.error("Error fetching teams:", error);
@@ -96,19 +118,36 @@ const TeamsPage = () => {
     if (!teamToDelete?.id) return;
     setLoading(true);
     try {
+      console.log("Starting delete for team:", teamToDelete);
       const response = await deleteAction(
         `${routes.api.teams.index}/${teamToDelete.id}`,
       );
-      if (response?.status === 200) {
-        await getTeamsData();
+      console.log("Delete team response:", response);
+      console.log("Response status:", response?.status);
+      console.log("Response data:", response?.data);
+      console.log("Response headers:", response?.headers);
+      
+      // Handle different success status codes
+      if (response?.status === 200 || response?.status === 204) {
+        // Close the modal immediately for better UX
+        setShowDeleteModal(false);
+        setTeamToDelete(null);
+        
         showSuccessToast("Team deleted successfully");
+        
+        // Refresh data immediately
+        console.log("Refreshing teams data...");
+        await getTeamsData();
+        console.log("Teams data refreshed");
       } else {
+        console.error("Delete failed with status:", response?.status);
+        showErrorToast("Failed to delete team. Please try again.");
       }
     } catch (error) {
       console.error("Error deleting team:", error);
+      showErrorToast("Error deleting team. Please try again.");
     } finally {
       setLoading(false);
-      setTeamToDelete(null);
     }
   };
 
@@ -118,8 +157,10 @@ const TeamsPage = () => {
   };
 
   const handleOpenDeleteModal = (team: Team) => {
+    console.log("Opening delete modal for team:", team);
     setTeamToDelete(team);
     setShowDeleteModal(true);
+    console.log("Delete modal state set to true");
   };
 
   return (
@@ -148,20 +189,30 @@ const TeamsPage = () => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {[
-            {
-              label: "Total Teams",
-              count: teams.length,
-              icon: "fas fa-users",
-              color: "blue",
-            },
-            {
-              label: "Active Teams",
-              count: teams.filter((u) => u.isActive).length,
-              icon: "fas fa-user-check",
-              color: "green",
-            },
-          ].map((card, i) => (
+          {(() => {
+            const totalTeams = teams.length;
+            const activeTeams = teams.filter((u) => u.isActive).length;
+            
+            console.log("Teams array:", teams);
+            console.log("Teams array length:", teams.length);
+            console.log("Teams with isActive:", teams.map(t => ({ id: t.id, isActive: t.isActive })));
+            console.log("Teams statistics calculation:", { totalTeams, activeTeams, teamsCount: teams.length });
+            
+            return [
+              {
+                label: "Total Teams",
+                count: totalTeams,
+                icon: "fas fa-users",
+                color: "blue",
+              },
+              {
+                label: "Active Teams",
+                count: activeTeams,
+                icon: "fas fa-user-check",
+                color: "green",
+              },
+            ];
+          })().map((card, i) => (
             <div
               key={i}
               className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-sm border dark:border-gray-700 transform hover:scale-105 transition-transform duration-200"

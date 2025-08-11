@@ -20,7 +20,7 @@ export default function ChatPage() {
           <h1 className="text-2xl font-semibold tracking-tight">
             {/* {type.charAt(0).toUpperCase() + type.slice(1)} Assistant */}
           </h1>
-          <p className="text-sm opacity-80">Ask about anything from AI agent.</p>
+          <p className="text-sm opacity-80">Ask about meetings from AI agent.</p>
         </header>
 
         <div className="flex-1 overflow-y-auto px-6 py-8 space-y-6">

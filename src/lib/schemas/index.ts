@@ -23,6 +23,7 @@ export const teamSchema = yup.object().shape({
 
 export const userSchema = yup.object().shape({
   email: yup.string().email("Invalid email").required("Email is required"),
+  password: yup.string().optional(),
   firstName: yup
     .string()
     .required("First name is required")
@@ -37,6 +38,12 @@ export const userSchema = yup.object().shape({
     .matches(/^\+\d{10,15}$/, "Invalid phone number format"),
   team: yup.object().shape({
     id: yup.string().required("Team is required"),
+  }),
+  role: yup.object().shape({
+    id: yup.string().optional(),
+  }),
+  status: yup.object().shape({
+    id: yup.string().optional(),
   }),
 });
 

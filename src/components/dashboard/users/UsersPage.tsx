@@ -6,7 +6,7 @@ import UserModal from "./UserModal";
 import ConfirmModal from "@/components/common/ConfirmModal";
 import ToastMessages, {
   showSuccessToast,
-  // showErrorToast,
+  showErrorToast,
 } from "@/components/common/ToastMessages";
 import {
   createAction,
@@ -28,13 +28,23 @@ const UsersPage = () => {
   const [showActiveOnly, setShowActiveOnly] = useState<boolean>(false);
   const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false);
   const [userToDelete, setUserToDelete] = useState<User | null>(null);
+  const [forceUpdate, setForceUpdate] = useState(0); // Force re-render
 
   const filteredUsers = users.filter((user) => {
     const matchesSearch =
       user.firstName.toLowerCase().includes(searchTerm.toLowerCase()) ||
       user.lastName.toLowerCase().includes(searchTerm.toLowerCase()) ||
       user.email.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesStatus = !showActiveOnly || user.status.id === "active";
+    const matchesStatus = !showActiveOnly || user.status.name === "Active";
+    
+    console.log(`User ${user.id} (${user.firstName} ${user.lastName}):`, {
+      matchesSearch,
+      matchesStatus,
+      searchTerm,
+      showActiveOnly,
+      status: user.status
+    });
+    
     return matchesSearch && matchesStatus;
   });
 
@@ -42,8 +52,13 @@ const UsersPage = () => {
     getUsersData();
   }, []);
 
+  // Debug effect to monitor users state changes
+  useEffect(() => {
+    console.log("Users state updated:", users);
+  }, [users]);
+
   const getStatusBadge = (status: string) => {
-    return status === "active"
+    return status === "Active"
       ? "bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-300"
       : "bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-300";
   };
@@ -65,8 +80,15 @@ const UsersPage = () => {
     setLoading(true);
     try {
       const response = await getAction(routes.api.users.index);
+      console.log("Users API response:", response);
       if (response?.status === 200) {
-        setUsers(response?.data.data || []);
+        const usersData = response?.data.data || [];
+        console.log("Setting users data:", usersData);
+        setUsers(usersData);
+        // Force a re-render to ensure statistics update
+        setForceUpdate(prev => prev + 1);
+      } else {
+        console.error("Failed to fetch users, status:", response?.status);
       }
     } catch (error) {
       console.error("Error fetching users:", error);
@@ -110,19 +132,36 @@ const UsersPage = () => {
     if (!userToDelete?.id) return;
     setLoading(true);
     try {
+      console.log("Starting delete for user:", userToDelete);
       const response = await deleteAction(
         `${routes.api.users.index}/${userToDelete.id}`,
       );
-      if (response?.status === 200) {
-        await getUsersData();
+      console.log("Delete user response:", response);
+      console.log("Response status:", response?.status);
+      console.log("Response data:", response?.data);
+      console.log("Response headers:", response?.headers);
+      
+      // Handle different success status codes
+      if (response?.status === 200 || response?.status === 204) {
+        // Close the modal immediately for better UX
+        setShowDeleteModal(false);
+        setUserToDelete(null);
+        
         showSuccessToast("User deleted successfully");
+        
+        // Refresh data immediately
+        console.log("Refreshing users data...");
+        await getUsersData();
+        console.log("Users data refreshed");
+      } else {
+        console.error("Delete failed with status:", response?.status);
+        showErrorToast("Failed to delete user. Please try again.");
       }
     } catch (error) {
-      // showErrorToast("Error deleting user");
       console.error("Error deleting user:", error);
+      showErrorToast("Error deleting user. Please try again.");
     } finally {
       setLoading(false);
-      setUserToDelete(null);
     }
   };
 
@@ -132,8 +171,10 @@ const UsersPage = () => {
   };
 
   const handleOpenDeleteModal = (user: User) => {
+    console.log("Opening delete modal for user:", user);
     setUserToDelete(user);
     setShowDeleteModal(true);
+    console.log("Delete modal state set to true");
   };
 
   return (
@@ -162,26 +203,40 @@ const UsersPage = () => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {[
-            {
-              label: "Total Users",
-              count: users.length,
-              icon: "fas fa-users",
-              color: "blue",
-            },
-            {
-              label: "Active Users",
-              count: users.filter((u) => u.status?.name === "active").length,
-              icon: "fas fa-user-check",
-              color: "green",
-            },
-            {
-              label: "Admins",
-              count: users.filter((u) => u.role?.name === "admin").length,
-              icon: "fas fa-user-shield",
-              color: "purple",
-            },
-          ].map((card, i) => (
+          {(() => {
+            const totalUsers = users.length;
+            const activeUsers = users.filter((u) => u.status?.name === "Active").length;
+            const adminUsers = users.filter((u) => u.role?.name === "Admin").length;
+            
+            console.log("Users array:", users);
+            console.log("Users array length:", users.length);
+            console.log("Users with status:", users.map(u => ({ id: u.id, status: u.status, statusName: u.status?.name, statusId: u.status?.id })));
+            console.log("Users with role:", users.map(u => ({ id: u.id, role: u.role, roleName: u.role?.name, roleId: u.role?.id })));
+            console.log("Active users filter result:", users.filter((u) => u.status?.name === "Active"));
+            console.log("Admin users filter result:", users.filter((u) => u.role?.name === "Admin"));
+            console.log("Statistics calculation:", { totalUsers, activeUsers, adminUsers, usersCount: users.length });
+            
+            return [
+              {
+                label: "Total Users",
+                count: totalUsers,
+                icon: "fas fa-users",
+                color: "blue",
+              },
+              {
+                label: "Active Users",
+                count: activeUsers,
+                icon: "fas fa-user-check",
+                color: "green",
+              },
+              {
+                label: "Admins",
+                count: adminUsers,
+                icon: "fas fa-user-shield",
+                color: "purple",
+              },
+            ];
+          })().map((card, i) => (
             <div
               key={i}
               className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-sm border dark:border-gray-700 transform hover:scale-105 transition-transform duration-200"

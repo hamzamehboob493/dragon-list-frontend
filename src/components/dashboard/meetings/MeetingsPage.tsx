@@ -38,6 +38,7 @@ const MeetingsPage = () => {
   const [meetingToDelete, setMeetingToDelete] = useState<Meeting | null>(null);
   const [parseJobs, setParseJobs] = useState<ParseJob[]>([]);
   const [parsingMeetings, setParsingMeetings] = useState<Set<number>>(new Set());
+  const [forceUpdate, setForceUpdate] = useState(0); // Force re-render
 
   const jobPollingRef = useRef<{ [key: string]: NodeJS.Timeout }>({});
 
@@ -67,6 +68,15 @@ const MeetingsPage = () => {
       meeting.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
       meeting.description.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesStatus = !showScheduledOnly || meeting.status === "scheduled";
+    
+    console.log(`Meeting ${meeting.id} (${meeting.title}):`, {
+      matchesSearch,
+      matchesStatus,
+      searchTerm,
+      showScheduledOnly,
+      status: meeting.status
+    });
+    
     return matchesSearch && matchesStatus;
   });
 
@@ -114,6 +124,11 @@ const MeetingsPage = () => {
     };
   }, []);
 
+  // Debug effect to monitor meetings state changes
+  useEffect(() => {
+    console.log("Meetings state updated:", meetings);
+  }, [meetings]);
+
   const getStatusBadge = (status: string) => {
     switch (status) {
       case "scheduled":
@@ -131,8 +146,15 @@ const MeetingsPage = () => {
     setLoading(true);
     try {
       const response = await getAction(routes.api.meetings.index);
+      console.log("Meetings API response:", response);
       if (response?.status === 200) {
-        setMeetings(response?.data.data || []);
+        const meetingsData = response?.data.data || [];
+        console.log("Setting meetings data:", meetingsData);
+        setMeetings(meetingsData);
+        // Force a re-render to ensure statistics update
+        setForceUpdate(prev => prev + 1);
+      } else {
+        console.error("Failed to fetch meetings, status:", response?.status);
       }
     } catch (error) {
       console.error("Error fetching meetings:", error);
@@ -176,19 +198,36 @@ const MeetingsPage = () => {
     if (!meetingToDelete?.id) return;
     setLoading(true);
     try {
+      console.log("Starting delete for meeting:", meetingToDelete);
       const response = await deleteAction(
         `${routes.api.meetings.index}/${meetingToDelete.id}`,
       );
-      if (response?.status === 200) {
-        await getMeetingsData();
+      console.log("Delete meeting response:", response);
+      console.log("Response status:", response?.status);
+      console.log("Response data:", response?.data);
+      console.log("Response headers:", response?.headers);
+      
+      // Handle different success status codes
+      if (response?.status === 200 || response?.status === 204) {
+        // Close the modal immediately for better UX
+        setShowDeleteModal(false);
+        setMeetingToDelete(null);
+        
         showSuccessToast("Meeting deleted successfully");
+        
+        // Refresh data immediately
+        console.log("Refreshing meetings data...");
+        await getMeetingsData();
+        console.log("Meetings data refreshed");
       } else {
+        console.error("Delete failed with status:", response?.status);
+        showErrorToast("Failed to delete meeting. Please try again.");
       }
     } catch (error) {
       console.error("Error deleting meeting:", error);
+      showErrorToast("Error deleting meeting. Please try again.");
     } finally {
       setLoading(false);
-      setMeetingToDelete(null);
     }
   };
 
@@ -198,8 +237,10 @@ const MeetingsPage = () => {
   };
 
   const handleOpenDeleteModal = (meeting: Meeting) => {
+    console.log("Opening delete modal for meeting:", meeting);
     setMeetingToDelete(meeting);
     setShowDeleteModal(true);
+    console.log("Delete modal state set to true");
   };
 
   const startJobPolling = (jobId: string, meetingId: number) => {
@@ -380,27 +421,38 @@ const MeetingsPage = () => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {[
-            {
-              label: "Total Meetings",
-              count: meetings.length,
-              icon: "fas fa-calendar",
-              color: "blue",
-            },
-            {
-              label: "Scheduled Meetings",
-              count: meetings.filter((m) => m.status === "scheduled").length,
-              icon: "fas fa-calendar-check",
-              color: "green",
-            },
-            {
-              label: "Recurring Meetings",
-              count: meetings.filter((m) => m.meetingType === "recurring")
-                .length,
-              icon: "fas fa-redo",
-              color: "purple",
-            },
-          ].map((card, i) => (
+          {(() => {
+            const totalMeetings = meetings.length;
+            const scheduledMeetings = meetings.filter((m) => m.status === "scheduled").length;
+            const completedMeetings = meetings.filter((m) => m.status === "completed").length;
+            
+            console.log("Meetings array:", meetings);
+            console.log("Meetings array length:", meetings.length);
+            console.log("Meetings with status:", meetings.map(m => ({ id: m.id, status: m.status })));
+            console.log("Meetings with type:", meetings.map(m => ({ id: m.id, type: m.meetingType })));
+            console.log("Meetings statistics calculation:", { totalMeetings, scheduledMeetings, completedMeetings, meetingsCount: meetings.length });
+            
+            return [
+              {
+                label: "Total Meetings",
+                count: totalMeetings,
+                icon: "fas fa-calendar",
+                color: "blue",
+              },
+              {
+                label: "Scheduled Meetings",
+                count: scheduledMeetings,
+                icon: "fas fa-calendar-check",
+                color: "green",
+              },
+              {
+                label: "Completed Meetings",
+                count: completedMeetings,
+                icon: "fas fa-calendar-times",
+                color: "purple",
+              },
+            ];
+          })().map((card, i) => (
             <div
               key={i}
               className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-sm border dark:border-gray-700 transform hover:scale-105 transition-transform duration-200"
