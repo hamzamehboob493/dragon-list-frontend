@@ -31,6 +31,11 @@ const MeetingShow: React.FC = () => {
   const [dragonsLists, setDragonsLists] = useState<DragonsList[]>([]);
   const [tasksLoading, setTasksLoading] = useState<boolean>(false);
   const [tasksError, setTasksError] = useState<string | null>(null);
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [totalPages, setTotalPages] = useState<number>(1);
+  const [totalItems, setTotalItems] = useState<number>(0);
+  const [hasNextPage, setHasNextPage] = useState<boolean>(false);
+  const limit = 1; // Items per page
   const { id } = useParams();
 
   const jobPollingRef = useRef<NodeJS.Timeout | null>(null);
@@ -51,15 +56,46 @@ const MeetingShow: React.FC = () => {
     }
   };
 
-  const fetchDragonsLists = async () => {
+  const fetchDragonsLists = async (page: number = currentPage) => {
     if (!id) return;
 
     try {
       setTasksLoading(true);
       setTasksError(null);
-      const response = await getAction(`${routes.api.meetings.lists}/${id}/lists`);
+      const response = await getAction(`${routes.api.meetings.lists}/${id}/lists?page=${page}&limit=${limit}`);
       if (response?.status === 200 && response.data) {
-        setDragonsLists(response.data);
+        // Handle new API response format
+        // The API response should have the format: { data: [...], hasNextPage: boolean, totalCount: number, currentPage: number }
+        if (response.data.hasNextPage !== undefined && response.data.totalCount !== undefined && response.data.currentPage !== undefined) {
+          // New API format with pagination metadata at root level
+          const listsData = Array.isArray(response.data) ? response.data : (response.data.data || []);
+          setDragonsLists(listsData);
+          setCurrentPage(response.data.currentPage);
+          setTotalItems(response.data.totalCount);
+          setHasNextPage(response.data.hasNextPage);
+          setTotalPages(Math.ceil(response.data.totalCount / limit));
+        } else if (Array.isArray(response.data)) {
+          // Direct array response (fallback)
+          setDragonsLists(response.data);
+          setCurrentPage(page);
+          setTotalItems(response.data.length);
+          setHasNextPage(false);
+          setTotalPages(1);
+        } else if (response.data.data) {
+          // Nested data structure (fallback)
+          setDragonsLists(response.data.data);
+          setCurrentPage(page);
+          setTotalItems(response.data.total || response.data.data.length);
+          setHasNextPage(false);
+          setTotalPages(Math.ceil((response.data.total || response.data.data.length) / limit));
+        } else {
+          // Non-paginated response (fallback)
+          setDragonsLists(response.data);
+          setCurrentPage(1);
+          setTotalItems(response.data.length);
+          setHasNextPage(false);
+          setTotalPages(1);
+        }
       } else {
         setTasksError("Failed to load tasks");
       }
@@ -215,6 +251,10 @@ const MeetingShow: React.FC = () => {
     try {
       setIsParsing(true);
 
+      // Step 1: Process transcript first
+      await createAction(`${routes.api.meetings.processTranscript}/${meeting.googleMeetId}`, {});
+
+      // Step 2: Generate Dragons List
       const response = await createAction(`${routes.api.meetings.parse}/${meeting.id}`, {});
       const jobId = response?.data?.jobId || response?.data?.id;
 
@@ -231,7 +271,7 @@ const MeetingShow: React.FC = () => {
       setParseJob(newJob);
       saveParseJob(newJob);
 
-      showSuccessToast(`Meeting parsing started! This may take several minutes. Feel free to continue using the app - you'll be notified when it's ready. Job ID: ${jobId}`);
+      showParsingToast(`Meeting parsing started! This may take several minutes. Feel free to continue using the app - you'll be notified when it's ready. Job ID: ${jobId}`);
 
       // Start polling for job status
       startJobPolling(jobId, meeting.id);
@@ -284,6 +324,24 @@ const MeetingShow: React.FC = () => {
 
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString();
+  };
+
+  const handlePageChange = (page: number) => {
+    if (page >= 1) {
+      fetchDragonsLists(page);
+    }
+  };
+
+  const handleNextPage = () => {
+    if (hasNextPage) {
+      handlePageChange(currentPage + 1);
+    }
+  };
+
+  const handlePrevPage = () => {
+    if (currentPage > 1) {
+      handlePageChange(currentPage - 1);
+    }
   };
 
   return (
@@ -565,10 +623,17 @@ const MeetingShow: React.FC = () => {
             </div>
 
             <div className="mt-6 bg-white dark:bg-gray-800 rounded-lg shadow-sm border dark:border-gray-700 p-6">
-              <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4 flex items-center">
-                <i className="fas fa-tasks mr-2 text-orange-500"></i>
-                Dragons List Tasks
-              </h2>
+              <div className="flex justify-between items-center mb-4">
+                <h2 className="text-xl font-semibold text-gray-900 dark:text-white flex items-center">
+                  <i className="fas fa-tasks mr-2 text-orange-500"></i>
+                  Dragons List Tasks
+                </h2>
+                {totalItems > 0 && (
+                  <div className="text-sm text-gray-500 dark:text-gray-400">
+                    Showing {((currentPage - 1) * limit) + 1}-{Math.min(currentPage * limit, totalItems)} of {totalItems}
+                  </div>
+                )}
+              </div>
 
               {tasksLoading && (
                 <div className="flex justify-center items-center h-32">
@@ -693,6 +758,38 @@ const MeetingShow: React.FC = () => {
                       )}
                     </div>
                   ))}
+                </div>
+              )}
+
+              {/* Pagination Controls */}
+              {!tasksLoading && !tasksError && totalItems > 1 && (
+                <div className="mt-6 flex items-center justify-between">
+                  <div className="text-sm text-gray-500 dark:text-gray-400">
+                    Showing {currentPage} of {totalItems} Dragons Lists
+                  </div>
+                  <div className="flex space-x-3">
+                    <button
+                      onClick={handlePrevPage}
+                      disabled={currentPage === 1}
+                      className="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-md hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed dark:bg-gray-800 dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-700 transition-colors"
+                    >
+                      <i className="fas fa-chevron-left mr-2"></i>
+                      Previous
+                    </button>
+
+                    <div className="flex items-center px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-300">
+                      Page {currentPage}
+                    </div>
+
+                    <button
+                      onClick={handleNextPage}
+                      disabled={!hasNextPage}
+                      className="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-md hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed dark:bg-gray-800 dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-700 transition-colors"
+                    >
+                      Next
+                      <i className="fas fa-chevron-right ml-2"></i>
+                    </button>
+                  </div>
                 </div>
               )}
             </div>

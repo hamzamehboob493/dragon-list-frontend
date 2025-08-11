@@ -305,6 +305,10 @@ const MeetingsPage = () => {
         return newSet;
       });
 
+      // Step 1: Process transcript first
+      await createAction(`${routes.api.meetings.processTranscript}/${meeting.googleMeetId}`, {});
+
+      // Step 2: Generate Dragons List
       const response = await createAction(`${routes.api.meetings.parse}/${meeting.id}`, {});
       const jobId = response?.data?.jobId || response?.data?.id;
 

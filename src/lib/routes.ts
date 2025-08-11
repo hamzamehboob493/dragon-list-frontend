@@ -26,6 +26,7 @@ export const routes = {
     },
     meetings: {
       index: "/meetings",
+      processTranscript: "/meetings/process-transcript",
       parse: "/dragons-list/generate/meeting",
       lists: "/dragons-list/meeting",
     },
