@@ -1,7 +1,6 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  darkMode: "class",
   images: {
     domains: ["images.pexels.com", "dummyjson.com"],
     remotePatterns: [
